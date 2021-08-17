@@ -1,10 +1,13 @@
 # one
 
 ## clone
-git clone https://github.com/mmh0705/One.git
+$ git clone https://github.com/mmh0705/One.git
 
 ## install node_modules
-npm install
+$ npm install
+
+## webpack for www
+$ webpack 
 
 ## cordova platform build
 $ cordova platform add android
