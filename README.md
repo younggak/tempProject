@@ -1,5 +1,19 @@
 # one
 
+## clone
+git clone https://github.com/mmh0705/One.git
+
+## install node_modules
+npm install
+
+## cordova platform build
+$ cordova platform add android
+$ cordova platform ls
+$ cordova plugin add 
+$ cordova plugin add .\CordovaCustomPlugin\
+$ cordova build android
+
+
 > A Vue.js project
 
 ## Build Setup
