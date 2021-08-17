@@ -10,11 +10,11 @@ $ npm install
 $ webpack 
 
 ## cordova platform build
-$ cordova platform add android
-$ cordova platform ls
-$ cordova plugin add 
-$ cordova plugin add .\CordovaCustomPlugin\
-$ cordova build android
+$ cordova platform add android  
+$ cordova platform ls  
+$ cordova plugin add  
+$ cordova plugin add .\CordovaCustomPlugin\  
+$ cordova build android  
 
 
 > A Vue.js project
