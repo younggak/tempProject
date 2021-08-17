@@ -14,8 +14,11 @@
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "html-webpack-plugin": "^5.3.2",
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.8.0"
+  },
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
