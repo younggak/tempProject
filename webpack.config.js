@@ -65,13 +65,13 @@ module.exports = {
         new webpack.EnvironmentPlugin({ NODE_ENV: 'development', DEBUG: false }),
         new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ['./www'] }),
         new HtmlWebPackPlugin({ template: './src/index.html', filename: './www/index.html' }),
-        new CopyWebpackPlugin({
-            patterns: [
-                // { from: './www/style.css', to: '.' },
-                // { from: './fonts/**/*.{otf,woff,woff2,json,ttf}', to: '.' },
-                // { from: './externals/kakao.min.js', to: './js' },
-            ],
-        }),
+        // new CopyWebpackPlugin({
+        //     patterns: [
+        //         // { from: './www/style.css', to: '.' },
+        //         // { from: './fonts/**/*.{otf,woff,woff2,json,ttf}', to: '.' },
+        //         // { from: './externals/kakao.min.js', to: './js' },
+        //     ],
+        // }),
         new VueLoaderPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ],
