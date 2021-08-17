@@ -64,7 +64,7 @@ module.exports = {
         new webpack.LoaderOptionsPlugin({ minimize: true }),
         new webpack.EnvironmentPlugin({ NODE_ENV: 'development', DEBUG: false }),
         new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ['./www'] }),
-        new HtmlWebPackPlugin({ template: './src/index.html', filename: './www/index.html' }),
+        new HtmlWebPackPlugin({ template: './src/index.html', filename: './index.html' }),
         // new CopyWebpackPlugin({
         //     patterns: [
         //         // { from: './www/style.css', to: '.' },

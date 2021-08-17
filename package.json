@@ -14,6 +14,13 @@
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js"
   },
+  "dependencies": {
+    "@popperjs/core": "^2.9.3",
+    "bootstrap": "^5.1.0",
+    "bootstrap-vue": "^2.21.2",
+    "vue": "^2.6.14",
+    "vue-router": "^3.5.2"
+  },
   "devDependencies": {
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "copy-webpack-plugin": "^9.0.1",
@@ -45,12 +52,5 @@
     "plugins": {
       "info.androidabcd.plugins.custom": {}
     }
-  },
-  "dependencies": {
-    "@popperjs/core": "^2.9.3",
-    "bootstrap": "^5.1.0",
-    "bootstrap-vue": "^2.21.2",
-    "vue": "^2.6.14",
-    "vue-router": "^3.5.2"
   }
 }
