@@ -5,6 +5,7 @@
   "author": "mmh0705 <bsi05067@gmail.com>",
   "private": true,
   "scripts": {
+    "build": "webpack & cordova build android",
     "start": "webpack-dev-server --inline --progress --config webpack/webpack.dev.conf.js"
   },
   "dependencies": {
