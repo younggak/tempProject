@@ -1,0 +1,35 @@
+{
+    "javascript.format.enable": true,
+    "javascript.suggest.completeJSDocs": true,
+    "javascript.suggestionActions.enabled": false,
+    "npm-intellisense.importES6": true,
+    "npm-intellisense.importQuotes": "'",
+    "npm-intellisense.importLinebreak": ";\r\n",
+    "npm-intellisense.importDeclarationType": "const",
+    "npm-intellisense.showBuildInLibs": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": false,
+        "source.organizeImports": false
+    },
+    "editor.defaultFormatter": null,
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "search.exclude": {
+        "**/.git": true,
+        "**/build": true,
+        "**/node_modules": true,
+        "**/bootstrap": true,
+    },
+    "html.suggest.html5": true,
+    "vetur.format.options.tabSize": 2,
+    "vetur.format.options.useTabs": false,
+    "vetur.format.defaultFormatter.ts": "vscode-typescript",
+    "vetur.format.defaultFormatter.js": "vscode-typescript",
+}

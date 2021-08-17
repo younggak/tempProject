@@ -1,1 +1,29 @@
-{}
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "lib": [
+            "es5",
+            "es6",
+            "dom",
+            "webworker"
+        ],
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "Node",
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        // "baseUrl": ".",
+        // "paths": {
+        //     "*": [
+        //     ]
+        // 
+    },
+    "include": [
+        "./**/*",
+        // "**/*.d.ts",
+        // "**/*.vue"
+    ],
+    "exclude": [
+        "./node_modules"
+    ]
+}
