@@ -8,12 +8,9 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
     mode: 'development',
-    entry: {
-        jaranda: ['./www/index.ts'],
-        ['service-worker']: ['./www/service-worker.ts']
-    },
+    entry: './src/main.js',
     output: {
-        path: path.resolve(__dirname, 'build/www'),
+        path: path.resolve(__dirname, 'www'),
         filename: (chunkData) => {
             return chunkData.chunk.name === 'service-worker'
                 ? '[name].js'
@@ -23,7 +20,7 @@ module.exports = {
     },
     devtool: "inline-source-map",
     devServer: {
-        contentBase: './build/www',
+        contentBase: './www',
         overlay: true // 오류내용을 화면에 보여주게 함.
     },
     resolve: {
@@ -66,13 +63,13 @@ module.exports = {
     plugins: [
         new webpack.LoaderOptionsPlugin({ minimize: true }),
         new webpack.EnvironmentPlugin({ NODE_ENV: 'development', DEBUG: false }),
-        new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ['./build/www'] }),
+        new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ['./www'] }),
         new HtmlWebPackPlugin({ template: './www/index.html', filename: './index.html' }),
         new CopyWebpackPlugin({
             patterns: [
-                //{ from: './www/style.css', to: '.' },
-                { from: './fonts/**/*.{otf,woff,woff2,json,ttf}', to: '.' },
-                { from: './externals/kakao.min.js', to: './js' },
+                // { from: './www/style.css', to: '.' },
+                // { from: './fonts/**/*.{otf,woff,woff2,json,ttf}', to: '.' },
+                // { from: './externals/kakao.min.js', to: './js' },
             ],
         }),
         new VueLoaderPlugin(),
