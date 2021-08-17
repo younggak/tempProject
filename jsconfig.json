@@ -19,11 +19,9 @@
         // 
     },
     "include": [
-        "./**/*",
-        // "**/*.d.ts",
-        // "**/*.vue"
+        "src/**/*",
     ],
     "exclude": [
-        "./node_modules"
+        "node_modules"
     ]
 }

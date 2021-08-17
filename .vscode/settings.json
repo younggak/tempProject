@@ -13,10 +13,12 @@
     },
     "editor.defaultFormatter": null,
     "[javascript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.tabSize": 4
     },
     "[typescript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.tabSize": 4
     },
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
