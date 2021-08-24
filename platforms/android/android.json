@@ -1,0 +1,39 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {
+      "res/xml/config.xml": {
+        "parents": {
+          "/*": [
+            {
+              "xml": "<feature name=\"CordovaCustomPlugin\"><param name=\"android-package\" value=\"info.androidabcd.plugins.custom.CordovaCustomPlugin\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "installed_plugins": {
+    "info.androidabcd.plugins.custom": {
+      "PACKAGE_NAME": "com.siin.One"
+    }
+  },
+  "dependent_plugins": {},
+  "modules": [
+    {
+      "id": "info.androidabcd.plugins.custom.CordovaCustomPlugin",
+      "file": "plugins/info.androidabcd.plugins.custom/www/CordovaCustomPlugin.js",
+      "pluginId": "info.androidabcd.plugins.custom",
+      "clobbers": [
+        "cordova.plugins.CordovaCustomPlugin"
+      ]
+    }
+  ],
+  "plugin_metadata": {
+    "info.androidabcd.plugins.custom": "1.0.0"
+  }
+}

@@ -6,25 +6,44 @@
             </div>
             <div id="search_container">
                 <input type="search" id="search_space" placeholder="검색하세요"/>
-                <input type="button" id="search_btn" @click="success('helloWorld')" value="검색"/>
+                <input type="button" id="search_btn" @click="getData()" value="검색"/>
             </div>
         </div>
+
+
         <div id="sms_2">
-            <div id="blank">
-                asdfasdfasdfasdf
+            <div v-for="person of people" v-bind:key="person" class="recycler">
+                {{ person.name }} {{ person.age }}
             </div>
-        </div>
+             <div>{{ temp }}</div>
+        </div> 
+       
     </div>
 </template>
 
 <script>
+var string = 'shitshitshit';
+function success(result){
+    string = result;
+    alert(result)
+}
 export default {
+    data() {
+        return {
+            temp: 'hello',
+            people: [
+                {name : '1', age: 20},
+                {name : '2', age: 30}
+            ]
+        }
+    },
   methods: {
-    // getData () {
-    //   cordova.exec(success, null,"CordovaCustomPlugin", "coolMethod", [111,222]);
-    // },
-    success (result) {
-      alert(result)
+    getData () {
+      cordova.exec(success, null,"CordovaCustomPlugin", "coolMethod", [111,222]);
+      updateData();
+    },
+    updateData () {
+      this.temp=string;
     }
   }
 }
@@ -59,6 +78,10 @@ export default {
 
         border-radius: 20px;
         background-color: rgb(33, 194, 33);
+    }
+
+    .recycler{
+        background-color: #FFFFFF;
     }
 
     #sms_1 {

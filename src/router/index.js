@@ -5,7 +5,6 @@ import Home from '../views/Home.vue'
 import SMS from '../views/SMS.vue'
 
 Vue.use(Router)
-
 export default new Router({
   routes: [{
     path: '/',

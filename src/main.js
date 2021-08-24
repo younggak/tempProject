@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
 const ENV = { isNative: false };
+
 const loadNativeScripts = async () =>
   new Promise((resolve, reject) =>
     $.getScript("cordova.js", resolve).fail((xhr, s, e) => {

@@ -1,0 +1,10 @@
+{
+  "info.androidabcd.plugins.custom": {
+    "source": {
+      "type": "local",
+      "path": "C:\\newApp\\One\\node_modules\\info.androidabcd.plugins.custom"
+    },
+    "is_top_level": true,
+    "variables": {}
+  }
+}
