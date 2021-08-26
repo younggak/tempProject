@@ -7,7 +7,7 @@
     </div> -->
   </div>
 </template>
-
+//a
 <script>
 import BottomNavigation from "./components/layout/BottomNavigation.vue";
 import LoadingScreen from "./components/layout/LoadingScreen.vue";
