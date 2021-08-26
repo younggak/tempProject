@@ -41,6 +41,7 @@ export default {
     },
   methods: {
     getData () {
+      return new Promise
       cordova.exec(success, null,"CordovaCustomPlugin", "coolMethod", []);
       cordova.exec(setListSize, null,"CordovaCustomPlugin", "getListSize", []);
       cordova.exec(getSMSCordova, null,"CordovaCustomPlugin", "getSMS", []);
