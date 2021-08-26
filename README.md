@@ -1,7 +1,7 @@
-# one
+# Okat_Main
 
 ## clone
-$ git clone https://github.com/mmh0705/One.git
+$ git clone https://github.com/mmh0705/Okat_Main.git
 
 ## install node_modules
 $ npm install
