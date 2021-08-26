@@ -11,6 +11,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+
 public class popUpService extends Service {
   private static popUpService pus = null;
   private String body;
@@ -20,6 +23,7 @@ public class popUpService extends Service {
   private Button stopBtn;
   private TextView bodyText;
   private TextView numberText;
+  private TextView checkText;
   public popUpService() {
   }
 
@@ -38,6 +42,7 @@ public class popUpService extends Service {
     stopBtn = (Button)fancyLl.findViewById(R.id.closeBtn);
     bodyText = (TextView)fancyLl.findViewById(R.id.bodyText);
     numberText = (TextView)fancyLl.findViewById(R.id.numberText);
+    checkText = (TextView)fancyLl.findViewById(R.id.checkText);
 
     WindowManager.LayoutParams parameters = new WindowManager.LayoutParams(800,500,
       WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -71,6 +76,13 @@ public class popUpService extends Service {
     com.siin.One.DataCenter.getInstance().setText(body);
 
 
+    Python py = Python.getInstance();
+
+    PyObject pyo = py.getModule("check");
+    PyObject obj = pyo.callAttr("main",body);
+
+    String str = obj.toString();
+    checkText.setText(str);
 
     return super.onStartCommand(intent, flags, startId);
   }
