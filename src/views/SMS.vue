@@ -56,7 +56,7 @@ export default {
     }
   }
 }
-
+//hello world
 function success(result){
     alert("연락처 내용 : "+result)
     rawString = result;
