@@ -6,7 +6,7 @@
             </div>
             <div id="search_container">
                 <input type="search" id="search_space" placeholder="검색하세요"/>
-                <input type="button" id="search_btn" @click="getData()" value="검색"/>
+                <input type="button" id="search_btn" @click="[getData(),  updateData()]" value="검색"/>
             </div>
         </div>
 
@@ -22,31 +22,54 @@
 </template>
 
 <script>
-var string = 'shitshitshit';
-function success(result){
-    string = result;
-    alert(result)
-}
+var list;
+var i = 0;
+var listSize = 0;
+var rawString = "raw now"
+var string2 = 'yesyes'
 export default {
     data() {
         return {
             temp: 'hello',
             people: [
-                {name : '1', age: 20},
-                {name : '2', age: 30}
+                {name: 0, age: 0},
+                {name: 0, age: 0},
+                {name: 0, age: 0},
+                {name: 0, age: 0}
             ]
         }
     },
   methods: {
     getData () {
-      cordova.exec(success, null,"CordovaCustomPlugin", "coolMethod", [111,222]);
-      updateData();
+      cordova.exec(success, null,"CordovaCustomPlugin", "coolMethod", []);
+      cordova.exec(setListSize, null,"CordovaCustomPlugin", "getListSize", []);
+      cordova.exec(getSMSCordova, null,"CordovaCustomPlugin", "getSMS", []);
     },
-    updateData () {
-      this.temp=string;
+     updateData () {
+     this.temp = string2;
+     alert("updateData로부터, listSize=" + listSize);
+     while(i < listSize){
+         this.people.push({name: list[i], age: i});
+         i++;
+     }
     }
   }
 }
+
+function success(result){
+    alert("연락처 내용 : "+result)
+    rawString = result;
+    list=rawString.split('@');
+    alert("연락처 내용 중에서 3번째 : " + list[3]);
+}
+function setListSize(result){
+    listSize = result;
+    alert("연락처 사이즈 : " + listSize);
+}
+function getSMSCordova (result) {
+    alert("최근 받은 문자 내용 : " + result);
+}
+
 </script>
 
 <style>
@@ -82,6 +105,9 @@ export default {
 
     .recycler{
         background-color: #FFFFFF;
+        border-radius: 10px;
+        margin-top: 10px;
+        width: 90%;    
     }
 
     #sms_1 {
@@ -91,6 +117,12 @@ export default {
     #sms_2 {
         flex: 4 1 0;
         background-color: darksalmon;
+        flex-direction: column;
+        overflow: auto;
+       
+       display: flex;
+       align-items: center;
+       /* justify-content: center; */
     }
 
     #sms_title {

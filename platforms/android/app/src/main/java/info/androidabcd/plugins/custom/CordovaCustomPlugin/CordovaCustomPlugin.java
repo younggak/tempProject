@@ -22,18 +22,55 @@ public class CordovaCustomPlugin extends CordovaPlugin {
             // this.coolMethod(message, callbackContext);
             String result1="happy";
             String result2="poop";
+            String result ="";
+            int i = 0;
             ArrayList<String> list = DataCenter.getInstance().getList();
            
             result1 = DataCenter.getInstance().getNumber();
             result2 = DataCenter.getInstance().getText();
 
-            callbackContext.success("Result : " + list.get(0) +"\n"+ list.get(1) +"\n" +list.get(2));
+            while(i < list.size()){
+                result = result +"@"+list.get(i);
+                i++;
+            }
+            callbackContext.success(result);
+            return true;
+        }
+        else if(action.equals("getListSize")){
+            int result =0;
+            ArrayList<String> list = DataCenter.getInstance().getList();
+            result=list.size();
+            callbackContext.success(result);
+            return true;
+        }
+        else if(action.equals("getSMS")){
+            String result1="happy";
+            String result2="SMS";
+            result1 = DataCenter.getInstance().getNumber();
+            result2 = DataCenter.getInstance().getText();
+            callbackContext.success(result1 + " " + result2);
             return true;
         }
         return false;
     }
 
     private void coolMethod(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+
+    private void getListSize(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+
+    private void getSMS(String message, CallbackContext callbackContext) {
         if (message != null && message.length() > 0) {
             callbackContext.success(message);
         } else {
