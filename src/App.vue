@@ -11,7 +11,7 @@
 <script>
 import BottomNavigation from "./components/layout/BottomNavigation.vue";
 import LoadingScreen from "./components/layout/LoadingScreen.vue";
-
+//dd
 export default {
   name: "App",
   components: {
