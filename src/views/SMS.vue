@@ -6,7 +6,7 @@
             </div>
             <div id="search_container">
                 <input type="search" id="search_space" placeholder="검색하세요"/>
-                <input type="button" id="search_btn" @click="[getData(),  updateData()]" value="검색"/>
+                <input type="button" id="search_btn" @click="getData()" value="검색"/>
             </div>
         </div>
 
@@ -17,7 +17,6 @@
             </div>
              <div>{{ temp }}</div>
         </div> 
-       
     </div>
 </template>
 
@@ -25,51 +24,69 @@
 var list;
 var i = 0;
 var listSize = 0;
-var rawString = "raw now"
-var string2 = 'yesyes'
+var rawString = "raw now";
+var string2 = 'yesyes';
 export default {
     data() {
         return {
             temp: 'hello',
-            people: [
-                {name: 0, age: 0},
-                {name: 0, age: 0},
-                {name: 0, age: 0},
-                {name: 0, age: 0}
-            ]
+            people: []
         }
     },
   methods: {
-    getData () {
-      return new Promise
-      cordova.exec(success, null,"CordovaCustomPlugin", "coolMethod", []);
-      cordova.exec(setListSize, null,"CordovaCustomPlugin", "getListSize", []);
-      cordova.exec(getSMSCordova, null,"CordovaCustomPlugin", "getSMS", []);
+    async getData() {
+        await this.totalData();
+        
+        this.temp = string2; 
+        // alert("updateData로부터, listSize=" + listSize); 
+
+        while(i < listSize){
+            this.people.push({name: list[i], age: i});
+            i++;
+        }
+        
     },
-     updateData () {
-     this.temp = string2;
-     alert("updateData로부터, listSize=" + listSize);
-     while(i < listSize){
-         this.people.push({name: list[i], age: i});
-         i++;
-     }
+    async totalData() {
+        cordova.exec(success, null,"CordovaCustomPlugin", "getContentList", []);
+        cordova.exec(setListSize, null,"CordovaCustomPlugin", "getListSize", []);
+        cordova.exec(getSMSCordova, null,"CordovaCustomPlugin", "getSMS", []);
     }
+  },
+  mounted() {
+      i=0;
+      this.people = [];
+      this.getData();
   }
 }
 //hello world
 function success(result){
-    alert("연락처 내용 : "+result)
+    // alert("연락처 내용 : "+result)
     rawString = result;
     list=rawString.split('@');
-    alert("연락처 내용 중에서 3번째 : " + list[3]);
+    // alert("연락처 내용 중에서 3번째 : " + list[3]);
 }
 function setListSize(result){
     listSize = result;
-    alert("연락처 사이즈 : " + listSize);
+    // alert("연락처 사이즈 : " + listSize);
 }
 function getSMSCordova (result) {
-    alert("최근 받은 문자 내용 : " + result);
+    // alert("최근 받은 문자 내용 : " + result);
 }
+
+async function one1() {
+    alert('1');
+    await two2();
+}
+async function two2(){
+    alert('2');
+}
+//    this.temp = string2;
+//             cordova.exec(getSMSCordova, null,"CordovaCustomPlugin", "getSMS", []);
+//             alert("updateData로부터, listSize=" + listSize);
+//             while(i < listSize){
+//                 this.people.push({name: list[i], age: i});
+//                 i++;
+//             }
 
 </script>
 
