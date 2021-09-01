@@ -8,7 +8,8 @@
        buildPython "C:/Users/u210813/AppData/Local/Programs/Python/Python39/python.exe"
     }
     본 경로를 본인 컴퓨터에 깔린 파이썬 실행파일 위치로 바꿔줍니다.
-
+## 안드로이드 그래들 추천
+그래들 버전 6.5 이상에서 잘 돌아갑니다. 그러나 7.0.0에서는 잘 돌아가지 않습니다.
 ## clone
 $ git clone https://github.com/mmh0705/Okat_Main.git
 
