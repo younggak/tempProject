@@ -1,5 +1,14 @@
 # Okat_Main
 
+## 파이썬 그래들 설정
+1. 일단 파이썬을 컴퓨터에 깔아줍니다.
+2. 안드로이드 스튜디오를 켜줍니다.
+3. build.gradle (Module: android.app)에 들어가서 ctrl+F python을 해줍니다.
+4.  python {
+       buildPython "C:/Users/u210813/AppData/Local/Programs/Python/Python39/python.exe"
+    }
+    본 경로를 본인 컴퓨터에 깔린 파이썬 실행파일 위치로 바꿔줍니다.
+
 ## clone
 $ git clone https://github.com/mmh0705/Okat_Main.git
 
