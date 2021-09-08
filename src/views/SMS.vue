@@ -6,88 +6,121 @@
             </div>
             <div id="search_container">
                 <input type="search" id="search_space" placeholder="검색하세요"/>
-                <input type="button" id="search_btn" @click="getData()" value="검색"/>
+                <input type="button" id="search_btn" @click="final();" value="검색"/>
             </div>
         </div>
 
-
         <div id="sms_2">
-            <div v-for="person of people" v-bind:key="person" class="recycler">
-                {{ person.name }} {{ person.age }}
+            <div v-for="smsComponent of SMS" v-bind:key="smsComponent" class="recycler">
+                <div id="ava_zone">
+                    <b-avatar class="ava"></b-avatar>
+                </div>
+
+                <div id="number_and_text_zone">
+                    <div id="number_zone">{{ smsComponent.number }}</div>
+                    <div id="text_zone">{{ smsComponent.text }}</div>
+                </div>  
             </div>
-             <div>{{ temp }}</div>
         </div> 
     </div>
 </template>
 
 <script>
+
 var list;
 var i = 0;
 var listSize = 0;
 var rawString = "raw now";
 var string2 = 'yesyes';
+
+var numberList = [];
+var textList = [];
 export default {
     data() {
         return {
             temp: 'hello',
-            people: []
+            SMS: [
+                {number : 0,text : 0}
+            ]
         }
     },
     methods: {
     async getData() {
         await this.totalData();
-        
         this.temp = string2; 
-        // alert("updateData로부터, listSize=" + listSize); 
-
-        while(i < listSize){
-            this.people.push({name: list[i], age: i});
+        while(i < listSize+1){
+            this.SMS.push({number: numberList[i], text: textList[i]});
             i++;
         }
         
     },
     async totalData() {
-        cordova.exec(success, null,"CordovaCustomPlugin", "getContentList", []);
-        cordova.exec(setListSize, null,"CordovaCustomPlugin", "getListSize", []);
-        cordova.exec(getSMSCordova, null,"CordovaCustomPlugin", "getSMS", []);
+        return new Promise(function(resolve, reject){
+            cordova.exec(setListSize, null,"CordovaCustomPlugin", "getListSize", []);
+            cordova.exec(getSMSCordova, null,"CordovaCustomPlugin", "getSMS", []);
+            resolve();
+        });  
+    },
+    hello(){
+       finalAsync();
+    },
+
+    async one(){
+        var that=this;
+        return new Promise(function(resolve,reject){
+            setTimeout(function(){
+                that.temp = 'eeee';
+                resolve();
+            },1000);
+        });
+    },
+    async final(){
+        await this.one();
+        alert(this.temp); 
     }
+
   },
   mounted() {
-      i=0;
-      this.people = [];
+      i=1;
+      this.SMS = [];
       this.getData();
   }
 }
 //hello world
+
+function alert1(){
+    return new Promise(function(resolve, reject){
+        setTimeout(function(){
+            alert('1');
+            resolve();
+        },1000);
+    });
+}
+function alert2(){
+    return new Promise(function(resolve, reject){
+        setTimeout(function(){
+            alert('2');
+            resolve();
+        },1000);
+    });
+}
+
 function success(result){
-    // alert("연락처 내용 : "+result)
     rawString = result;
     list=rawString.split('@');
     // alert("연락처 내용 중에서 3번째 : " + list[3]);
 }
 function setListSize(result){
     listSize = result;
-    // alert("연락처 사이즈 : " + listSize);
+    // alert("문자 리스트 사이즈 : " + listSize);
 }
 function getSMSCordova (result) {
-    // alert("최근 받은 문자 내용 : " + result);
+    var tempList = [];
+    rawString = result;
+    tempList = rawString.split('#');
+    numberList = tempList[0].split('@');
+    textList = tempList[1].split('@');
 }
-
-async function one1() {
-    alert('1');
-    await two2();
-}
-async function two2(){
-    alert('2');
-}
-//    this.temp = string2;
-//             cordova.exec(getSMSCordova, null,"CordovaCustomPlugin", "getSMS", []);
-//             alert("updateData로부터, listSize=" + listSize);
-//             while(i < listSize){
-//                 this.people.push({name: list[i], age: i});
-//                 i++;
-//             }
-
 </script>
 
 <style>
@@ -124,10 +157,46 @@ async function two2(){
     .recycler{
         background-color: #FFFFFF;
         border-radius: 10px;
+        border: 1px solid #778899;
         margin-top: 10px;
-        width: 90%;    
+        width: 90%;
+        height: 80px;    
+
+        display: flex;
+        flex-direction: row;
+        
+    }
+    .ava{
+        background-color: #778899;
+        color:#FFFFFF;
+    }
+    #ava_zone{
+        background-color: aqua;
+        width: 20%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px 0 0 15px;
+    }
+    #number_zone{
+        width: 100%;
+        height: 100%;
+        background-color: chartreuse;
+        border-radius: 0 15px 0 0;
+    }
+    #text_zone{
+        height: 100%;
+        width: 100%;
+        background-color:crimson;
+        border-radius: 0 0 15px 0;
     }
 
+    #number_and_text_zone{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
     #sms_1 {
         flex: 1 1 0;
         background-color: #454d7f;
@@ -140,7 +209,6 @@ async function two2(){
        
        display: flex;
        align-items: center;
-       /* justify-content: center; */
     }
 
     #sms_title {
@@ -155,7 +223,6 @@ async function two2(){
     }
 
     #search_container {
-        /* background-color: brown; */
         height: 30%;
 
         margin-top: 3%;

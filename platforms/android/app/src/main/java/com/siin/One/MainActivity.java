@@ -47,7 +47,6 @@ public class MainActivity extends CordovaActivity
         super.onCreate(savedInstanceState);
 
 
-
         String[] permissions = {Manifest.permission.RECEIVE_SMS};
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
         if (permissionCheck == PackageManager.PERMISSION_DENIED) {
@@ -73,13 +72,19 @@ public class MainActivity extends CordovaActivity
         ContentResolver cr = getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI , null ,null, null, null);
 
+        int count = 0;
+
         if(cur.getCount()>0){
             String line = "";
             while(cur.moveToNext()){
+                PhoneBook pb = new PhoneBook();
                 int id = cur.getInt(cur.getColumnIndex(ContactsContract.Contacts._ID));
-                line = String.format("%4d",id);
+//                line = String.format("%4d",id);
+                pb.setId(String.format("%4d",id));
+
                 String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                line += " " + name;
+//                line += " " + name;
+                pb.setName(name);
 
                 if(("1").equals(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))) {
                     Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", new String[]{String.valueOf(id)}, null);
@@ -90,12 +95,13 @@ public class MainActivity extends CordovaActivity
 
                     while (pCur.moveToNext()) {
                         phoneNum[i] = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        line += " " + phoneNum[i];
+//                        line += " " + phoneNum[i];
+                        pb.setTel(phoneNum[i]);
                         phoneType[i] = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
                         i++;
                     }
                 }
-                DataCenter.getInstance().getList().add(line);
+                DataCenter.getInstance().getPhoneBookList().add(pb);
                 //numbook.add(line);
                 line ="";
             }

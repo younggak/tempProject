@@ -72,8 +72,11 @@ public class popUpService extends Service {
     bodyText.setText(body);
     numberText.setText(number);
 
-    com.siin.One.DataCenter.getInstance().setNumber(number);
-    com.siin.One.DataCenter.getInstance().setText(body);
+    SMSBook sb = new SMSBook();
+    sb.setNumber(number);
+    sb.setText(body);
+    DataCenter.getInstance().getSmsBookList().add(sb);
+
 
 
     Python py = Python.getInstance();

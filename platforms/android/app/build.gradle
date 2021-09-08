@@ -264,7 +264,7 @@ android {
         }
 
         python {
-            buildPython "C:/Users/tnrms/AppData/Local/Programs/Python/Python38-32/python.exe"
+            buildPython "C:/Users/u210813/AppData/Local/Programs/Python/Python39/python.exe"
         }
     }
 
@@ -372,6 +372,8 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
     implementation "com.android.support:support-v4:+"
+    implementation "android.arch.persistence.room:runtime:1.0.0-alpha4"
+    implementation "android.arch.persistence.room:compiler:1.0.0-alpha4"
     // SUB-PROJECT DEPENDENCIES END
 }
 

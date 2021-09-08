@@ -4,6 +4,9 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
 import com.siin.One.DataCenter;
+import com.siin.One.PhoneBook;
+import com.siin.One.SMSBook;
+
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -17,44 +20,46 @@ public class CordovaCustomPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (action.equals("getContentList")) {
+        if (action.equals("getPhonebookList")) {
             // String message = args.getString(0);
             // this.coolMethod(message, callbackContext);
-            String result1="happy";
-            String result2="poop";
-            String result ="";
-            int i = 0;
-            ArrayList<String> list = DataCenter.getInstance().getList();
-           
-            result1 = DataCenter.getInstance().getNumber();
-            result2 = DataCenter.getInstance().getText();
+            // String result ="";
+            // int i = 0;
+            // ArrayList<PhoneBook> list = DataCenter.getInstance().getList();
 
-            while(i < list.size()){
-                result = result +"@"+list.get(i);
-                i++;
-            }
-            callbackContext.success(result);
-            return true;
+            // while(i < list.size()){
+            //     result = result +"@"+list.get(i);
+            //     i++;
+            // }
+            // callbackContext.success(result);
+            // return true;
         }
         else if(action.equals("getListSize")){
             int result =0;
-            ArrayList<String> list = DataCenter.getInstance().getList();
+            ArrayList<SMSBook> list = DataCenter.getInstance().getSmsBookList();
             result=list.size();
             callbackContext.success(result);
             return true;
         }
         else if(action.equals("getSMS")){
-            String result1="happy";
-            String result2="SMS";
-            result1 = DataCenter.getInstance().getNumber();
-            result2 = DataCenter.getInstance().getText();
-            callbackContext.success(result1 + " " + result2);
+            String numbers="";
+            String texts="";
+            int i = 0;
+            ArrayList<SMSBook> list = DataCenter.getInstance().getSmsBookList();
+
+            while(i < list.size()){
+                numbers = numbers +"@"+list.get(i).getNumber();
+                texts = texts +"@"+list.get(i).getText();
+                i++;
+            }
+
+            callbackContext.success(numbers + "#" + texts);
             return true;
         }
         return false;
     }
 
-    private void getContentList(String message, CallbackContext callbackContext) {
+    private void getPhonebookList(String message, CallbackContext callbackContext) {
         if (message != null && message.length() > 0) {
             callbackContext.success(message);
         } else {

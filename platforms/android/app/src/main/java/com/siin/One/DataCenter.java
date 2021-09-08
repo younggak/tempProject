@@ -3,43 +3,32 @@ package com.siin.One;
 import java.util.ArrayList;
 
 public class DataCenter {
-  String number;
-  String text;
-  ArrayList<String> list = new ArrayList<String>();
+  ArrayList<PhoneBook> phoneBookList = new ArrayList<PhoneBook>();
+  ArrayList<SMSBook> smsBookList = new ArrayList<SMSBook>();
 
 
   private static DataCenter instance = new DataCenter();
   //private construct
   private DataCenter() {
-    number="dirty";
-    text="shit";
-  }
-
-  public ArrayList<String> getList() {
-    return list;
-  }
-
-  public void setList(ArrayList<String> list) {
-    this.list = list;
   }
 
   public static DataCenter getInstance() {
     return instance;
   }
 
-  public String getNumber() {
-    return number;
+  public ArrayList<PhoneBook> getPhoneBookList() {
+    return phoneBookList;
   }
 
-  public String getText() {
-    return text;
+  public void setPhoneBookList(ArrayList<PhoneBook> list) {
+    this.phoneBookList = list;
   }
 
-  public void setNumber(String number) {
-    this.number = number;
+  public ArrayList<SMSBook> getSmsBookList() {
+    return smsBookList;
   }
 
-  public void setText(String text) {
-    this.text = text;
+  public void setSmsBookList(ArrayList<SMSBook> smsBookList) {
+    this.smsBookList = smsBookList;
   }
 }
