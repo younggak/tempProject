@@ -1,10 +1,10 @@
 # Okat_Main
 
 ## 주의사항
-# cordova build android 시에 local properties가 없다고 에러가 뜰 경우, 안드로이드 스튜디오로 platform폴더 밑에 있는 android폴더를 열어줍시다. 
-# 안드로이드 스튜디오에서 자동으로 빌드가 된 이후에 다시 cordova build android를 해줍시다.
+### cordova build android 시에 local properties가 없다고 에러가 뜰 경우, 안드로이드 스튜디오로 platform폴더 밑에 있는 android폴더를 열어줍시다. 
+### 안드로이드 스튜디오에서 자동으로 빌드가 된 이후에 다시 cordova build android를 해줍시다.
 
-# 또한 자꾸 cordova 관련된 method의 에러가 발생할 경우, 파일 탭을 누르고 Invalidate Caches / Restart 한번 해줍시다
+### 또한 자꾸 cordova 관련된 method의 에러가 발생할 경우, 파일 탭을 누르고 Invalidate Caches / Restart 한번 해줍시다
 
 ## 파이썬 그래들 설정
 1. 일단 파이썬을 컴퓨터에 깔아줍니다.
