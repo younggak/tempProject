@@ -22,6 +22,7 @@ package com.siin.One;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -41,6 +42,7 @@ import java.util.List;
 
 public class MainActivity extends CordovaActivity
 {
+    String shared = "file";
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -66,6 +68,28 @@ public class MainActivity extends CordovaActivity
 
         PyObject pyo = py.getModule("init");
         pyo.callAttr("main");
+
+//        SharedPreferences sharedPreferences = getSharedPreferences(shared,0);
+//        int listSize = sharedPreferences.getInt("size",0);
+//        if(listSize>0){
+//            int i = 0;
+//            String numberList = sharedPreferences.getString("number","");
+//            String textList = sharedPreferences.getString("text","");
+//            String[] nl = numberList.split("#");
+//            String[] tl = textList.split("#");
+//
+//            while(i<listSize){
+//                SMSBook sb = new SMSBook();
+//                sb.setNumber(nl[i]);
+//                sb.setText(tl[i]);
+//                DataCenter.getInstance().getSmsBookList().add(sb);
+//                i++;
+//            }
+//        }
+//        String numberList = sharedPreferences.getString("number","");
+//        String textList = sharedPreferences.getString("text","");
+
+
 
 
 
@@ -120,4 +144,28 @@ public class MainActivity extends CordovaActivity
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
     }
+
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//
+//        SharedPreferences sharedPreferences = getSharedPreferences(shared,0);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//        String number = "";
+//        String text = "";
+//        ArrayList<SMSBook> list = new ArrayList<SMSBook>();
+//        list = DataCenter.getInstance().getSmsBookList();
+//        int i = 0;
+//        int max = list.size();
+//        while(i<max){
+//            number = number + list.get(i).getNumber() + "#";
+//            text = text + list.get(i).getText() + "#";
+//            i++;
+//        }
+//        editor.putString("number", number);
+//        editor.putString("text", text);
+//        editor.putInt("size", list.size());
+//        editor.commit();
+//    }
 }
