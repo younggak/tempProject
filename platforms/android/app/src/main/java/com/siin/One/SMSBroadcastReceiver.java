@@ -21,7 +21,6 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
             msg_from = msgs[i].getOriginatingAddress();
             String msgBody = msgs[i].getMessageBody();
-
             Intent serviceIntent = new Intent(context, popUpService.class);
             serviceIntent.putExtra("text", msgBody);
             serviceIntent.putExtra("number", msg_from);

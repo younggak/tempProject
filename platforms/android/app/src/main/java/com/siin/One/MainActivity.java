@@ -22,32 +22,32 @@ package com.siin.One;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-
-import com.chaquo.python.PyObject;
-import com.chaquo.python.Python;
-import com.chaquo.python.android.AndroidPlatform;
+import android.widget.Toast;
 
 import org.apache.cordova.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends CordovaActivity
 {
     String shared = "file";
+    public static Context contextOfApplication;
+    public static Context getContextOfApplication(){
+
+        return contextOfApplication;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
+        contextOfApplication = getApplicationContext();
 
         String[] permissions = {Manifest.permission.RECEIVE_SMS};
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
@@ -60,37 +60,6 @@ public class MainActivity extends CordovaActivity
         if (permissionCheckRead == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, permissionsRead, 1);
         }
-
-        if(!Python.isStarted())
-            Python.start(new AndroidPlatform(this));
-
-        Python py = Python.getInstance();
-
-        PyObject pyo = py.getModule("init");
-        pyo.callAttr("main");
-
-//        SharedPreferences sharedPreferences = getSharedPreferences(shared,0);
-//        int listSize = sharedPreferences.getInt("size",0);
-//        if(listSize>0){
-//            int i = 0;
-//            String numberList = sharedPreferences.getString("number","");
-//            String textList = sharedPreferences.getString("text","");
-//            String[] nl = numberList.split("#");
-//            String[] tl = textList.split("#");
-//
-//            while(i<listSize){
-//                SMSBook sb = new SMSBook();
-//                sb.setNumber(nl[i]);
-//                sb.setText(tl[i]);
-//                DataCenter.getInstance().getSmsBookList().add(sb);
-//                i++;
-//            }
-//        }
-//        String numberList = sharedPreferences.getString("number","");
-//        String textList = sharedPreferences.getString("text","");
-
-
-
 
 
         ContentResolver cr = getContentResolver();
@@ -120,7 +89,7 @@ public class MainActivity extends CordovaActivity
                     while (pCur.moveToNext()) {
                         phoneNum[i] = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 //                        line += " " + phoneNum[i];
-                        pb.setTel(phoneNum[i]);
+                        pb.setTel(phoneNum[i].replace("-",""));
                         phoneType[i] = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
                         i++;
                     }
@@ -130,6 +99,41 @@ public class MainActivity extends CordovaActivity
                 line ="";
             }
         }
+
+        int listSize = PreferenceManager.getInt(this,"size");
+        if(listSize>0){
+
+            String numberList = PreferenceManager.getString(this,"number");
+            String textList = PreferenceManager.getString(this,"text");
+            String[] nl = numberList.split("#");
+            String[] tl = textList.split("#");
+
+            int i = 0;
+            int pblistSize = DataCenter.getInstance().getPhoneBookList().size();
+            while(i<listSize){
+                SMSBook sb = new SMSBook();
+                String alterNumber = nl[i];
+                int k = 0;
+                while(k<pblistSize){
+                    PhoneBook pb = DataCenter.getInstance().getPhoneBookList().get(k);
+                    if(!(pb.getTel() == null)){
+                        if(pb.getTel().equals(nl[i])){
+                            alterNumber = pb.getName();
+                            System.out.println(pb.getTel());
+                        }
+                    }
+                    k++;
+                }
+                k = 0;
+
+                sb.setNumber(alterNumber);
+                sb.setText(tl[i]);
+                DataCenter.getInstance().getSmsBookList().add(sb);
+                i++;
+            }
+        }
+
+
 
 
 
@@ -145,27 +149,39 @@ public class MainActivity extends CordovaActivity
         loadUrl(launchUrl);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        String number = "";
+        String text = "";
+        ArrayList<SMSBook> list = new ArrayList<SMSBook>();
+        list = DataCenter.getInstance().getSmsBookList();
+        int i = 0;
+        int max = list.size();
+        while(i<max){
+            number = number + list.get(i).getNumber() + "#";
+            text = text + list.get(i).getText() + "#";
+            i++;
+        }
+
+        PreferenceManager.setString(this,"number", number);
+        PreferenceManager.setString(this,"text", text);
+        PreferenceManager.setInt(this,"size", list.size());
+        list.clear();
+    }
+
+//    private long time= 0;
+//
 //    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
 //
-//        SharedPreferences sharedPreferences = getSharedPreferences(shared,0);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//    public void onBackPressed(){
 //
-//        String number = "";
-//        String text = "";
-//        ArrayList<SMSBook> list = new ArrayList<SMSBook>();
-//        list = DataCenter.getInstance().getSmsBookList();
-//        int i = 0;
-//        int max = list.size();
-//        while(i<max){
-//            number = number + list.get(i).getNumber() + "#";
-//            text = text + list.get(i).getText() + "#";
-//            i++;
+//        if(System.currentTimeMillis() - time >= 2000){
+//            time=System.currentTimeMillis();
+//            Toast.makeText(getApplicationContext(),"한번더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+//        } else if(System.currentTimeMillis() - time < 2000 ){
+//            finish();
 //        }
-//        editor.putString("number", number);
-//        editor.putString("text", text);
-//        editor.putInt("size", list.size());
-//        editor.commit();
 //    }
 }

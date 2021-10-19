@@ -6,7 +6,7 @@
             </div>
             <div id="search_container">
                 <input type="search" id="search_space" placeholder="검색하세요"/>
-                <input type="button" id="search_btn" @click="final();" value="검색"/>
+                <input type="button" id="search_btn" @click="clearSharedPreference()" value="검색"/>
             </div>
         </div>
 
@@ -22,6 +22,9 @@
                 </div>  
             </div>
         </div> 
+        <div>
+
+        </div>
     </div>
 </template>
 
@@ -32,7 +35,6 @@ var i = 0;
 var listSize = 0;
 var rawString = "raw now";
 var string2 = 'yesyes';
-
 var numberList = [];
 var textList = [];
 export default {
@@ -45,40 +47,42 @@ export default {
         }
     },
     methods: {
-    async getData() {
-        await this.totalData();
-        this.temp = string2; 
-        while(i < listSize+1){
-            this.SMS.push({number: numberList[i], text: textList[i]});
-            i++;
-        }
-        
-    },
-    async totalData() {
-        return new Promise(function(resolve, reject){
-            cordova.exec(setListSize, null,"CordovaCustomPlugin", "getListSize", []);
-            cordova.exec(getSMSCordova, null,"CordovaCustomPlugin", "getSMS", []);
-            resolve();
-        });  
-    },
-    hello(){
-       finalAsync();
-    },
-
-    async one(){
-        var that=this;
-        return new Promise(function(resolve,reject){
-            setTimeout(function(){
-                that.temp = 'eeee';
+        async getData() {
+            await this.totalData();
+            this.temp = string2; 
+            while(i < listSize+1){
+                this.SMS.push({number: numberList[i], text: textList[i]});
+                i++;
+            }
+            
+        },
+        async totalData() {
+            return new Promise(function(resolve, reject){
+                cordova.exec(setListSize, null,"CordovaCustomPlugin", "getListSize", []);
+                cordova.exec(getSMSCordova, null,"CordovaCustomPlugin", "getSMS", []);
                 resolve();
-            },1000);
-        });
-    },
-    async final(){
-        await this.one();
-        alert(this.temp); 
-    }
+            });  
+        },
+        hello(){
+            finalAsync();
+        },
 
+        async one(){
+            var that=this;
+            return new Promise(function(resolve,reject){
+                setTimeout(function(){
+                    that.temp = 'eeee';
+                    resolve();
+                },1000);
+            });
+        },
+        async final(){
+            await this.one();
+            alert(this.temp); 
+        },
+        clearSharedPreference(){
+            cordova.exec(sharedPreferenceDone, null,"CordovaCustomPlugin", "sharedPreferenceClear", []);
+        }
   },
   mounted() {
       i=1;
@@ -87,23 +91,6 @@ export default {
   }
 }
 //hello world
-
-function alert1(){
-    return new Promise(function(resolve, reject){
-        setTimeout(function(){
-            alert('1');
-            resolve();
-        },1000);
-    });
-}
-function alert2(){
-    return new Promise(function(resolve, reject){
-        setTimeout(function(){
-            alert('2');
-            resolve();
-        },1000);
-    });
-}
 
 function success(result){
     rawString = result;
@@ -121,9 +108,12 @@ function getSMSCordova (result) {
     numberList = tempList[0].split('@');
     textList = tempList[1].split('@');
 }
+function sharedPreferenceDone(result){
+    alert("done!");
+}
 </script>
 
-<style>
+<style scoped>
     div {
         margin: 0;
         padding: 0;
@@ -199,6 +189,7 @@ function getSMSCordova (result) {
     }
     #sms_1 {
         flex: 1 1 0;
+        /* width: 95%; */
         background-color: #454d7f;
     }
     #sms_2 {

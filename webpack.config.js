@@ -39,11 +39,15 @@ module.exports = {
     },
     module: {
         rules: [
-            {
-                test: /\.ts?$/,
-                loader: "ts-loader",
-                options: { appendTsSuffixTo: [/\.vue$/] }
-            },
+            // {
+            //     test: /\.svg$/i,
+            //     loader: 'url-loader',
+            // },
+            // {
+            //     test: /\.ts?$/,
+            //     loader: "ts-loader",
+            //     options: { appendTsSuffixTo: [/\.vue$/] }
+            // },
             {
                 test: /\.vue?$/,
                 loader: "vue-loader",
@@ -65,13 +69,13 @@ module.exports = {
         new webpack.EnvironmentPlugin({ NODE_ENV: 'development', DEBUG: false }),
         new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ['./www'] }),
         new HtmlWebPackPlugin({ template: './src/index.html', filename: './index.html' }),
-        // new CopyWebpackPlugin({
-        //     patterns: [
-        //         // { from: './www/style.css', to: '.' },
-        //         // { from: './fonts/**/*.{otf,woff,woff2,json,ttf}', to: '.' },
-        //         // { from: './externals/kakao.min.js', to: './js' },
-        //     ],
-        // }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: './assets', to: './assets' },
+                { from: './fonts/**/*.{otf,woff,woff2,json,ttf}', to: '.' },
+                // { from: './externals/kakao.min.js', to: './js' },
+            ],
+        }),
         new VueLoaderPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ],

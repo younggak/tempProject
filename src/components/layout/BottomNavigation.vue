@@ -1,6 +1,6 @@
 <template>
         <nav class="nav">
-            <a href="#/" class="nav__link">
+            <a href="#/home" class="nav__link">
                 <div>
                     <b-icon icon="house-fill" class="nav__icons"></b-icon>
                 </div>
@@ -14,14 +14,14 @@
                 <span class="nav__text">문자열람</span>
             </a>
 
-            <a href="#slide-3" class="nav__link">
+            <a href="#/analysis" class="nav__link">
                 <div>
                     <b-icon icon="graph-up" class="nav__icons"></b-icon>
                 </div>
                 <span class="nav__text">상세분석</span>
             </a>
 
-            <a href="#slide-4" class="nav__link">
+            <a href="#/splash" class="nav__link">
                 <div>
                     <b-icon icon="lightning-fill" class="nav__icons"></b-icon>
                 </div>

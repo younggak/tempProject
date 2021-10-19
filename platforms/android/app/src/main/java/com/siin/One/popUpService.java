@@ -77,16 +77,6 @@ public class popUpService extends Service {
     sb.setText(body);
     DataCenter.getInstance().getSmsBookList().add(sb);
 
-
-
-    Python py = Python.getInstance();
-
-    PyObject pyo = py.getModule("check");
-    PyObject obj = pyo.callAttr("main",body);
-
-    String str = obj.toString();
-    checkText.setText(str);
-
     return super.onStartCommand(intent, flags, startId);
   }
 
