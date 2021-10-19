@@ -76,7 +76,7 @@ export default {
     data(){
         return{
             score_number:0,
-            toggle: true,
+            toggle: false,
         }
     },
     methods:{
@@ -84,7 +84,6 @@ export default {
             this.score_number++;
             this.toggle = !this.toggle;
             console.log(this.score_number+'\n'+this.toggle);
-            // alert(this.number+'\n'+this.toggle);
         },
     }
 };
