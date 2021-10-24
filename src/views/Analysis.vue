@@ -42,7 +42,7 @@
 
 <script>
 export default {
-     data() {
+     data: function() {
       return {
         sections: [
             { value: 25 }, { value: 25 }

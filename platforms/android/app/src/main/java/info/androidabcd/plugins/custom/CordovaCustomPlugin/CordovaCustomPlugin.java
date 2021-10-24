@@ -6,6 +6,7 @@ import com.siin.One.MainActivity;
 import com.siin.One.DataCenter;
 import com.siin.One.PhoneBook;
 import com.siin.One.SMSBook;
+import com.siin.One.SMSInPhoneBook;
 
 import android.content.Context;
 import com.siin.One.PreferenceManager;
@@ -16,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 /**
  * This class echoes a string called from JavaScript.
  */
@@ -24,18 +26,7 @@ public class CordovaCustomPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("getPhonebookList")) {
-            // String message = args.getString(0);
-            // this.coolMethod(message, callbackContext);
-            // String result ="";
-            // int i = 0;
-            // ArrayList<PhoneBook> list = DataCenter.getInstance().getList();
-
-            // while(i < list.size()){
-            //     result = result +"@"+list.get(i);
-            //     i++;
-            // }
-            // callbackContext.success(result);
-            // return true;
+          
         }
         else if(action.equals("getListSize")){
             int result =0;
@@ -59,10 +50,11 @@ public class CordovaCustomPlugin extends CordovaPlugin {
             callbackContext.success(numbers + "#" + texts);
             return true;
         }
-        else if(action.equals("sharedPreferenceClear")){
-            Context applicationContext = MainActivity.getContextOfApplication();
-            PreferenceManager.clear(applicationContext);
-            callbackContext.success("");
+        else if(action.equals("refreshSMSDataBase")){
+
+            DataCenter.getInstance().refreshSMSDataBase(MainActivity.contextOfApplication);
+            ArrayList<SMSInPhoneBook> list = DataCenter.getInstance().getSmsInPhoneBooksList();
+            callbackContext.success(list.get(args.getInt(0)).getAddress());
             return true;
         }
         return false;
@@ -92,7 +84,7 @@ public class CordovaCustomPlugin extends CordovaPlugin {
             callbackContext.error("Expected one non-empty string argument.");
         }
     }
-    private void sharedPreferenceClear(String message, CallbackContext callbackContext) {
+    private void refreshSMSDataBase(String message, CallbackContext callbackContext) {
         if (message != null && message.length() > 0) {
             callbackContext.success(message);
         } else {

@@ -38,7 +38,7 @@ var string2 = 'yesyes';
 var numberList = [];
 var textList = [];
 export default {
-    data() {
+    data: function() {
         return {
             temp: 'hello',
             SMS: [

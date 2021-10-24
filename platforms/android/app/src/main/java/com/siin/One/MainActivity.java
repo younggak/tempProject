@@ -24,6 +24,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
@@ -59,6 +60,12 @@ public class MainActivity extends CordovaActivity
         int permissionCheckRead = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
         if (permissionCheckRead == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, permissionsRead, 1);
+        }
+
+        String[] permissionsSMS = {Manifest.permission.READ_SMS};
+        int permissionCheckSMS = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS);
+        if (permissionCheckSMS == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, permissionsSMS, 1);
         }
 
 

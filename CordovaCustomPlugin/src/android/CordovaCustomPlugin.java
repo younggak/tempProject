@@ -6,6 +6,7 @@ import com.siin.One.MainActivity;
 import com.siin.One.DataCenter;
 import com.siin.One.PhoneBook;
 import com.siin.One.SMSBook;
+import com.siin.One.SMSInPhoneBook;
 
 import android.content.Context;
 import com.siin.One.PreferenceManager;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 /**
  * This class echoes a string called from JavaScript.
@@ -48,10 +50,16 @@ public class CordovaCustomPlugin extends CordovaPlugin {
             callbackContext.success(numbers + "#" + texts);
             return true;
         }
-        else if(action.equals("sharedPreferenceClear")){
-            Context applicationContext = MainActivity.getContextOfApplication();
-            PreferenceManager.clear(applicationContext);
-            callbackContext.success("");
+        else if(action.equals("refreshSMSDataBase")){
+            DataCenter.getInstance().refreshSMSDataBase(MainActivity.contextOfApplication);
+            ArrayList<SMSInPhoneBook> list = DataCenter.getInstance().getSmsInPhoneBooksList();
+            int i = 0;
+            while(i<list.size()){
+                
+                i++;
+            }
+
+            callbackContext.success(list.get(args.getInt(0)).getAddress());
             return true;
         }
         return false;
@@ -81,7 +89,7 @@ public class CordovaCustomPlugin extends CordovaPlugin {
             callbackContext.error("Expected one non-empty string argument.");
         }
     }
-    private void sharedPreferenceClear(String message, CallbackContext callbackContext) {
+    private void refreshSMSDataBase(String message, CallbackContext callbackContext) {
         if (message != null && message.length() > 0) {
             callbackContext.success(message);
         } else {

@@ -30,7 +30,7 @@
     </div>
 
 	<div id='detail_button'> 
-    <div id='detail_button_btn'>피싱 분석</div>
+    <div id='detail_button_btn' v-on:click='getSMSBody'>피싱 분석</div>
 	</div>
 
 	<div id='detail_text'>
@@ -62,21 +62,54 @@
         </div>
 	</div>
 
-    <div id='bottom_sheet' v-on:click='toggling'>
-		bottom_sheet
+    <div id='bottom_sheet' v-on:click='toggle= !toggle;'>
+		
 	</div>
-    <div id='opennnnn' v-if='toggle'>
-        hello
+
+    <div v-if='smsDetailPageToggle' v-bind:style="bottomSheet_style1">
+        <div v-bind:style="backButtonStyle" v-on:click="smsDetailPageToggle=!smsDetailPageToggle">back</div>
+
+        {{tempSMSBody}}-
     </div>
+
+    <transition name='upDown'>
+        <div v-bind:style='bottomSheet_style' v-on:click='toggle = !toggle'> 
+            
+        </div>
+    </transition>
   </div>
 </template>
 
 <script>
+var tempBody = 'not';
+var i = 0;
 export default {
-    data(){
+    data: function(){
         return{
+            smsDetailPageToggle:false,
             score_number:0,
             toggle: false,
+            tempSMSBody: 'nono',
+            bottomSheet_style:{
+                backgroundColor: 'aquamarine',
+                position: 'absolute',
+                top:'90%',
+                width: '80%',
+                height: '50%',
+                fontSize: '20px',
+            },
+            bottomSheet_style1:{
+                backgroundColor: 'deepskyblue',
+                position: 'absolute',
+                width: '80%',
+                height: '50%',
+                fontSize: '5px',
+                overflow: 'scroll',
+            },
+            backButtonStyle:{
+                backgroundColor:'red',
+                borderRadius: '15px',
+            }
         }
     },
     methods:{
@@ -85,22 +118,36 @@ export default {
             this.toggle = !this.toggle;
             console.log(this.score_number+'\n'+this.toggle);
         },
+        bottomSheetAnimate(){
+           
+        },
+        async getSMSBody(){
+            this.smsDetailPageToggle = !this.smsDetailPageToggle;
+            this.score_number++;
+            await this.cordovaGetSMSBody();
+            // 
+            i++;
+            this.tempSMSBody = tempBody;
+        },
+        async cordovaGetSMSBody(){
+            return new Promise(function(resolve, reject){
+                cordova.exec(refreshSMSData, null,"CordovaCustomPlugin", "refreshSMSDataBase", [i]);
+                resolve();
+            });
+        },
     }
-};
+}
+
+function refreshSMSData(result){
+    tempBody =result;
+}
 </script>
 
 <style scoped>
-#opennnnn{
-    background-color: aquamarine;
-    position: absolute;
-    /* top:80%; */
-    width: 80%;
-    height: 50%;
-}
+
 #score_current{
 	display: flex;
   flex-direction: row;
-	
   justify-content: flex-end;
 	align-items:flex-end;
 	
@@ -108,7 +155,7 @@ export default {
 	width:50%;
 	
 	line-height:90%;
-
+    
 	font-size: 70px;
 	color:#009944;
 	/* background-color: aquamarine; */
@@ -142,7 +189,8 @@ export default {
   padding: 0px;
   margin: 0px;
 
-  /* overflow: hidden; */
+  position: sticky;
+  overflow: hidden;
 }
 .detail_score_section{
     display: flex;

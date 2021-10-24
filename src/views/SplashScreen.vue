@@ -18,12 +18,14 @@
 
 <script>
 export default {
-    data(){
+    data: function(){
+        return{
 
+        }
 	},
 	methods: {
 		goHome(){
-			location.href='#/home'
+            this.$router.push('/home')
 		}
 	}
 }
