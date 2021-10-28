@@ -4,13 +4,14 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 import com.siin.One.MainActivity;
 import com.siin.One.DataCenter;
-import com.siin.One.PhoneBook;
 import com.siin.One.SMSBook;
-import com.siin.One.SMSInPhoneBook;
+import com.siin.One.HashMapDetail.HashMapDetail_SMS;
+import com.siin.One.HashMapDetail.HashMapDetail_PhoneBook;
 
 import android.content.Context;
 import com.siin.One.PreferenceManager;
 
+import java.util.Map;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -51,15 +52,62 @@ public class CordovaCustomPlugin extends CordovaPlugin {
             return true;
         }
         else if(action.equals("refreshSMSDataBase")){
-            DataCenter.getInstance().refreshSMSDataBase(MainActivity.contextOfApplication);
-            ArrayList<SMSInPhoneBook> list = DataCenter.getInstance().getSmsInPhoneBooksList();
-            int i = 0;
-            while(i<list.size()){
-                
-                i++;
+            String result = "";
+            
+            DataCenter.getInstance().refreshSMSDataBase(MainActivity.getContextOfApplication());
+            for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet: DataCenter.getInstance().getSmsHashMap().entrySet()){
+                String temp = entrySet.getKey();
+                ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
+                int i = 0;
+                while(i<tl.size()){
+                    result = result + temp + "--" + tl.get(i).getBody()+"--"+ tl.get(i).getTimestamp() + "^&";
+                    i++;
+                }
+        
             }
+            callbackContext.success(result);
+            return true;
+        } 
+        else if(action.equals("refreshPhoneBookDataBase")){
+            String result = "";
+            DataCenter.getInstance().refreshPhoneBookDataBase(MainActivity.getContextOfApplication());
+            for(Map.Entry<String , HashMapDetail_PhoneBook> entrySet : DataCenter.getInstance().getPhoneBookHashMap().entrySet()){
+                result = result + entrySet.getKey() +"--"+ entrySet.getValue().getName()+"@";
+            }
+            callbackContext.success(result);
+            return true;
+        }
+        else if(action.equals("getBookedSMS")){
+            String result = "";
 
-            callbackContext.success(list.get(args.getInt(0)).getAddress());
+            DataCenter.getInstance().refreshBookedSmsHashMap();
+            for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getBookedSmsHashMap().entrySet()){
+                String temp = entrySet.getKey();
+                ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
+                int i = 0;
+                while(i<tl.size()){
+                    result = result + temp + "--" + tl.get(i).getBody()+"--"+ tl.get(i).getTimestamp() + "^&";
+                    i++;
+                }
+            }
+            callbackContext.success(result);
+            return true;
+        }
+
+        else if(action.equals("getNotBookedSMS")){
+            String result = "";
+
+            DataCenter.getInstance().refreshBookedSmsHashMap();
+            for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getNotBookedSmsHashMap().entrySet()){
+                String temp = entrySet.getKey();
+                ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
+                int i = 0;
+                while(i<tl.size()){
+                    result = result + temp + "--" + tl.get(i).getBody()+"--"+ tl.get(i).getTimestamp() + "^&";
+                    i++;
+                }
+            }
+            callbackContext.success(result);
             return true;
         }
         return false;
@@ -90,6 +138,28 @@ public class CordovaCustomPlugin extends CordovaPlugin {
         }
     }
     private void refreshSMSDataBase(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+    private void refreshPhoneBookDataBase(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+
+    private void getBookedSMS(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+    private void getNotBookedSMS(String message, CallbackContext callbackContext) {
         if (message != null && message.length() > 0) {
             callbackContext.success(message);
         } else {

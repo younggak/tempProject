@@ -30,7 +30,7 @@
     </div>
 
 	<div id='detail_button'> 
-    <div id='detail_button_btn' v-on:click='getSMSBody'>피싱 분석</div>
+    <div id='detail_button_btn' v-on:click='smsDetailPageToggle=!smsDetailPageToggle'>피싱 분석</div>
 	</div>
 
 	<div id='detail_text'>
@@ -47,29 +47,44 @@
 	<div id='detail_score'> 
 		<div class='detail_score_section'>
             <img src='assets/sms.svg'>
-            <div id='sms_number'>123</div>
+            <div id='sms_number'>{{susinSMS}}</div>
             <div id='detail_score_text'>수신문자</div>
         </div>
 		<div class='detail_score_section'>
             <img src='assets/question.svg'>
-            <div id='question_number'>100</div>
+            <div id='question_number'>{{nowaySMS}}</div>
             <div id='detail_score_text'>알 수 없는 문자</div>
         </div>
 		<div class='detail_score_section'>
             <img src='assets/exclamation.svg'>
-            <div id='exclamation_number'>23</div>
+            <div id='exclamation_number'>{{uisimSMS}}</div>
             <div id='detail_score_text'>피싱 의심 문자</div>
         </div>
 	</div>
 
-    <div id='bottom_sheet' v-on:click='toggle= !toggle;'>
+    <div id='bottom_sheet'>
 		
 	</div>
 
     <div v-if='smsDetailPageToggle' v-bind:style="bottomSheet_style1">
-        <div v-bind:style="backButtonStyle" v-on:click="smsDetailPageToggle=!smsDetailPageToggle">back</div>
+        
+        <div v-bind:style="detailTopMenuStyle"> 
+            <div v-bind:style="backButtonStyle" v-on:click="smsDetailPageToggle=!smsDetailPageToggle">back</div>
+            <div v-bind:style='detailTopMenuStyle_component1' v-on:click='getFullSMS'>전체 문자</div>
+            <div v-bind:style='detailTopMenuStyle_component2' v-on:click='getPhoneBook'>연락처 정보</div>
+            <div v-bind:style='detailTopMenuStyle_component3' v-on:click='getNotBookedSMS'>등록X 문자</div>
+            <div v-bind:style='detailTopMenuStyle_component4' v-on:click='getBookedSMS'>등록O 문자</div>
+            <div v-bind:style='detailTopMenuStyle_component5' v-on:click='statistics'>통계</div>
+        </div>
+        <div v-for="smsComponent of vforList" v-bind:key="smsComponent">
+            {{smsComponent.number}}
+            <br>
+            <br>
+        </div>
 
-        {{tempSMSBody}}-
+        <!-- <div v-for="smsComponent of phoneList" v-bind:key="smsComponent">
+            {{smsComponent.number}}
+        </div> -->
     </div>
 
     <transition name='upDown'>
@@ -81,7 +96,10 @@
 </template>
 
 <script>
-var tempBody = 'not';
+var tempList = [];
+var numberList = [];
+var phoneBookList = [];
+var listSize = 0;
 var i = 0;
 export default {
     data: function(){
@@ -89,7 +107,58 @@ export default {
             smsDetailPageToggle:false,
             score_number:0,
             toggle: false,
-            tempSMSBody: 'nono',
+            tempSMSNumber: 0,
+            listSize: numberList.length,
+
+            susinSMS: 0,
+            nowaySMS: 0,
+            uisimSMS: 0,
+            
+            safeSMS:0,
+
+            vforList: [
+                {  }
+            ],
+
+            phoneList:[
+                { number: 0, }
+            ],
+            detailTopMenuStyle:{
+                display: 'flex',
+                flexDirection: 'row',       
+                alignItems: 'center',
+                justifyContent: 'center', 
+            },
+            detailTopMenuStyle_component1: {
+                flex: '1 1 0',
+                borderWidth: '2px',
+                fontSize: '10px',
+                backgroundColor: 'yellow',
+            },
+             detailTopMenuStyle_component2: {
+                flex: '1 1 0',
+                borderWidth: '2px',
+                fontSize: '10px',
+                backgroundColor: 'tomato',
+            },
+             detailTopMenuStyle_component3: {
+                flex: '1 1 0',
+                borderWidth: '2px',
+                fontSize: '10px',
+                backgroundColor: 'darksalmon',
+            },
+             detailTopMenuStyle_component4: {
+                flex: '1 1 0',
+                borderWidth: '2px',
+                fontSize: '10px',
+                backgroundColor:'khaki',
+            },
+             detailTopMenuStyle_component5: {
+                flex: '1 1 0',
+                borderWidth: '2px',
+                fontSize: '10px',
+                backgroundColor: 'hotpink',
+            },
             bottomSheet_style:{
                 backgroundColor: 'aquamarine',
                 position: 'absolute',
@@ -103,10 +172,11 @@ export default {
                 position: 'absolute',
                 width: '80%',
                 height: '50%',
-                fontSize: '5px',
+                fontSize: '10px',
                 overflow: 'scroll',
             },
             backButtonStyle:{
+                flex: '1 1 0',
                 backgroundColor:'red',
                 borderRadius: '15px',
             }
@@ -121,25 +191,102 @@ export default {
         bottomSheetAnimate(){
            
         },
-        async getSMSBody(){
-            this.smsDetailPageToggle = !this.smsDetailPageToggle;
-            this.score_number++;
-            await this.cordovaGetSMSBody();
-            // 
-            i++;
-            this.tempSMSBody = tempBody;
+
+        statistics(){
+            this.vforList.splice(1);
+            this.vforList.push({number:'전체 문자' + this.susinSMS});
+            this.vforList.push({number:'연락처에 있는 문자' + this.safeSMS});
+            this.vforList.push({number:'연락처에 없는 문자' + this.nowaySMS})
         },
-        async cordovaGetSMSBody(){
+        async getFullSMS(){
+            this.vforList.splice(1);
+            await this.cordovaGetFullSMS();
+            i = 0;
+            alert("전체 문자 갯수 : "+tempList.length)
+            this.susinSMS = tempList.length;
+            while(i<tempList.length){
+                this.vforList.push({number:tempList[i]});
+                i++;
+            }
+        },
+
+        async getPhoneBook(){
+            this.vforList.splice(1);
+            await this.cordovaGetPhoneBook();
+            i = 0;
+            alert("연락처 갯수 : "+ tempList.length);
+            while(i < tempList.length){
+                this.vforList.push({number: tempList[i]});
+                i++;
+            }
+        },
+        async getNotBookedSMS(){
+            this.vforList.splice(1);
+            
+            await this.cordovaGetNotBookedSMS();
+            i=0;
+            this.nowaySMS = tempList.length;
+            alert(""+tempList.length);
+            while(i < tempList.length){
+                this.vforList.push({number: tempList[i]});
+                i++;
+            }
+        },
+
+        async getBookedSMS(){
+            this.vforList.splice(1);
+            await this.cordovaGetBookedSMS();
+            i=0;
+            while(i < tempList.length){
+                this.vforList.push({number: tempList[i]});
+                i++;
+            }
+            alert("연락처에 있는 문자"+tempList.length );
+            this.safeSMS = tempList.length;
+        },
+
+        async cordovaGetFullSMS(){
             return new Promise(function(resolve, reject){
-                cordova.exec(refreshSMSData, null,"CordovaCustomPlugin", "refreshSMSDataBase", [i]);
+                cordova.exec(refreshSMSDataBase, null,"CordovaCustomPlugin", "refreshSMSDataBase", []);
                 resolve();
             });
         },
+        async cordovaGetPhoneBook(){
+            return new Promise(function (resolve, reject){
+                cordova.exec(refreshPhoneBookDataBase, null,"CordovaCustomPlugin", "refreshPhoneBookDataBase", []);
+                resolve();
+            });
+        },
+
+        async cordovaGetNotBookedSMS(){
+            return new Promise(function (resolve, reject){
+                cordova.exec(function_getNotBookedSMS, null,"CordovaCustomPlugin", "getNotBookedSMS", []);
+                resolve();
+            });
+        },
+
+         async cordovaGetBookedSMS(){
+            return new Promise(function (resolve, reject){
+                cordova.exec(function_getBookedSMS, null,"CordovaCustomPlugin", "getBookedSMS", []);
+                resolve();
+            });
+        },
+        
     }
 }
 
-function refreshSMSData(result){
-    tempBody =result;
+function refreshSMSDataBase(result){
+    tempList = result.split('^&');
+}
+function refreshPhoneBookDataBase(result){
+    tempList = result.split('@');
+    // alert('result');
+}
+function function_getNotBookedSMS(result){
+    tempList = result.split('^&');
+}
+function function_getBookedSMS(result){
+    tempList = result.split('^&')
 }
 </script>
 
@@ -155,12 +302,10 @@ function refreshSMSData(result){
 	width:50%;
 	
 	line-height:90%;
-    
 	font-size: 70px;
 	color:#009944;
 	/* background-color: aquamarine; */
 }
-
 #score_total{
 	display: flex;
 	height: 100%;
