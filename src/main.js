@@ -3,12 +3,15 @@ import $ from "jquery";
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
+// import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+// import "bootstrap/dist/css/bootstrap.css";
+// import "bootstrap-vue/dist/bootstrap-vue.css";
 import Donut from 'vue-css-donut-chart';
 import 'vue-css-donut-chart/dist/vcdonut.css';
 import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 
 const ENV = { isNative: false };
 
@@ -20,18 +23,19 @@ const loadNativeScripts = async () =>
   );
 
 function onServiceReady() {
-  // Make BootstrapVue available throughout your project
-  Vue.use(BootstrapVue);
-  // Optionally install the BootstrapVue icon components plugin
-  Vue.use(IconsPlugin);
+  // Vue.use(IconsPlugin);
   Vue.use(Donut);
   Vue.use(VueBottomSheet);
+
+  Vue.use(Vuetify)
+  
   
   Vue.config.productionTip = false;
   /* eslint-disable no-new */
   new Vue({
     el: "#app",
     router,
+    vuetify : new Vuetify(),
     components: { App },
     template: "<App/>",
   });

@@ -1,4 +1,5 @@
 <template>
+ <v-app>
   <div class="home_container">
     <div id="home_appBar">
       <div id="logo">
@@ -6,9 +7,53 @@
       </div>
       <div id="empty_box"></div>
       <div id="dots">
-          <b-icon-three-dots-vertical style="height: 100%;"></b-icon-three-dots-vertical>
+     <v-btn
+      depressed
+      color="primary"
+      @click.stop="drawer = !drawer"
+     >
+      Primary
+    </v-btn>
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+    >
+      <v-list-item>
+        <v-list-item-avatar>
+          <!-- <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img> -->
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title>John Leider</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list dense>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    
       </div>
+
     </div>
+ 
+   
+    
 
     <div id="home_cat">
       <div id="background_fish">
@@ -31,6 +76,7 @@
 
 	<div id='detail_button'> 
     <div id='detail_button_btn' v-on:click='smsDetailPageToggle=!smsDetailPageToggle'>피싱 분석</div>
+   
 	</div>
 
 	<div id='detail_text'>
@@ -63,7 +109,43 @@
 	</div>
 
     <div id='bottom_sheet'>
-		
+       
+        <div class="text-center">
+            <v-bottom-sheet
+            v-model="sheet"
+            inset
+            >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                    color="orange"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    >
+                    Open Inset
+                    </v-btn>
+                </template>
+                <v-sheet
+                    class="text-center"
+                    height="200px"
+                >
+                    <v-btn
+                    class="mt-6"
+                    text
+                    color="error"
+                    @click="sheet = !sheet"
+                    >
+                    close
+                    </v-btn>
+                    <div class="my-3">
+                    This is a bottom sheet using the inset prop
+                    </div>
+                </v-sheet>
+            </v-bottom-sheet>
+
+   
+        </div>
+       
 	</div>
 
     <div v-if='smsDetailPageToggle' v-bind:style="bottomSheet_style1">
@@ -81,18 +163,10 @@
             <br>
             <br>
         </div>
-
-        <!-- <div v-for="smsComponent of phoneList" v-bind:key="smsComponent">
-            {{smsComponent.number}}
-        </div> -->
     </div>
 
-    <transition name='upDown'>
-        <div v-bind:style='bottomSheet_style' v-on:click='toggle = !toggle'> 
-            
-        </div>
-    </transition>
   </div>
+   </v-app>
 </template>
 
 <script>
@@ -442,7 +516,7 @@ function function_getBookedSMS(result){
 #bottom_sheet{
 	width: 100%;
 	flex: 1.5 1 0;
-	background-color: tomato;
+	background-color: white;
     position: relative;
 }
 /***********************************************************/

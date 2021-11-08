@@ -39,15 +39,6 @@ module.exports = {
     },
     module: {
         rules: [
-            // {
-            //     test: /\.svg$/i,
-            //     loader: 'url-loader',
-            // },
-            // {
-            //     test: /\.ts?$/,
-            //     loader: "ts-loader",
-            //     options: { appendTsSuffixTo: [/\.vue$/] }
-            // },
             {
                 test: /\.vue?$/,
                 loader: "vue-loader",
@@ -56,10 +47,23 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: [
-                    process.env.NODE_ENV !== 'production'
-                        ? 'vue-style-loader'
-                        : 'style-loader',
-                    'css-loader'
+                    'vue-style-loader',
+                    'css-loader',
+                    {
+                        loader: 'sass-loader',
+                        // Requires sass-loader@^7.0.0
+                        options: {
+                          implementation: require('sass'),
+                          
+                        },
+                        // Requires >= sass-loader@^8.0.0
+                        options: {
+                          implementation: require('sass'),
+                          sassOptions: {
+                            
+                          },
+                        },
+                      },
                 ]
             },
         ]
