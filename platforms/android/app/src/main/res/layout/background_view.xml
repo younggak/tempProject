@@ -1,37 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#00ffff"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
     android:layout_gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:weightSum="10">
 
-    <TextView
-        android:id="@+id/numberText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
-    <TextView
-        android:id="@+id/bodyText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
-    <TextView
-        android:id="@+id/checkText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:background="@android:color/transparent"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:id="@+id/alert_layout"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/layout_bg_only_top_radius">
+            <TextView
+                android:id="@+id/alert_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/white"
+                android:text="안전문자"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent">
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@drawable/layout_bg_only_top_right_radius"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
 
-    <Button
-        android:id="@+id/closeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="닫습니다" />
-    <Button
-        android:id="@+id/showBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="보여주세요" />
+        <RelativeLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFFFFF">
+            <Button
+                android:id="@+id/closeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="#F2F2F2"
+                android:text="닫습니다" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <RelativeLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/numberText"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="8"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:background="@drawable/layout_bg_only_bottom_radius">
+
+        <TextView
+            android:id="@+id/bodyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="" />
+        <TextView
+            android:id="@+id/checkText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+    </LinearLayout>
 </LinearLayout>

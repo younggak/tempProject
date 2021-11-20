@@ -13,6 +13,8 @@ import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+
 const ENV = { isNative: false };
 
 const loadNativeScripts = async () =>

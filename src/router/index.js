@@ -5,11 +5,13 @@ import Splash from '../views/SplashScreen.vue'
 import Home from '../views/Home.vue'
 import SMS from '../views/SMS.vue'
 import Analysis from '../views/Analysis.vue'
+import SMSscore from '../views/SMSscore.vue'
 
 
 Vue.use(Router)
 export default new Router({
   routes: [
+    
     {
       path: '/',
       name: 'Splash',
@@ -29,6 +31,11 @@ export default new Router({
     path: '/analysis',
     name: 'Analysis',
     component : Analysis
-  }
+  },
+  {
+    path: '/smsscore',
+    name: 'SMSscore',
+    component: SMSscore
+  },
   ]
 })

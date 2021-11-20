@@ -18,9 +18,14 @@ public class DataCenter {
 
   HashMap<String, HashMapDetail_PhoneBook> phoneBookHashMap = new HashMap<>();
   HashMap<String, ArrayList<HashMapDetail_SMS> > smsHashMap = new HashMap<>();
-
   HashMap<String, ArrayList<HashMapDetail_SMS>> bookedSmsHashMap = new HashMap<>();
   HashMap<String, ArrayList<HashMapDetail_SMS>> notBookedSmsHashMap = new HashMap<>();
+
+  HashMap<String, ArrayList<HashMapDetail_SMS>> URLSmsHashMap = new HashMap<>();
+  HashMap<String, ArrayList<HashMapDetail_SMS>> webSmsHashMap = new HashMap<>();
+  HashMap<String, ArrayList<HashMapDetail_SMS>> zeroSevenSmsHashMap = new HashMap<>();
+  HashMap<String, ArrayList<HashMapDetail_SMS>> adSmsHashMap = new HashMap<>();
+  HashMap<String, ArrayList<HashMapDetail_SMS>> overseaSmsHashMap = new HashMap<>();
 
   private int totalSMSNumber;
   private int SMSInPhoneBookNumber;
@@ -33,6 +38,26 @@ public class DataCenter {
   private static DataCenter instance = new DataCenter();
   //private construct
   private DataCenter() {
+  }
+
+  public HashMap<String, ArrayList<HashMapDetail_SMS>> getURLSmsHashMap() {
+    return URLSmsHashMap;
+  }
+
+  public HashMap<String, ArrayList<HashMapDetail_SMS>> getWebSmsHashMap() {
+    return webSmsHashMap;
+  }
+
+  public HashMap<String, ArrayList<HashMapDetail_SMS>> getZeroSevenSmsHashMap() {
+    return zeroSevenSmsHashMap;
+  }
+
+  public HashMap<String, ArrayList<HashMapDetail_SMS>> getAdSmsHashMap() {
+    return adSmsHashMap;
+  }
+
+  public HashMap<String, ArrayList<HashMapDetail_SMS>> getOverseaSmsHashMap() {
+    return overseaSmsHashMap;
   }
 
   public HashMap<String, ArrayList<HashMapDetail_SMS>> getSmsHashMap() {
@@ -82,9 +107,11 @@ public class DataCenter {
             "date DESC");
 
     while (c.moveToNext()) {
+      //긴급 문자는 걸러용
       if(c.getString(2).equals("Information")){
         continue;
       }
+      //만약 있는 번호에서 온 문자라면
       else if(smsHashMap.containsKey(c.getString(2)) ){
         HashMapDetail_SMS hmds = new HashMapDetail_SMS();
 
@@ -111,7 +138,60 @@ public class DataCenter {
 
         smsHashMap.get(c.getString(2)).add(hmds);
 
-      }else{
+        //Url
+        if(hmds.getBody().contains("www") || hmds.getBody().contains("http") ){
+          if(URLSmsHashMap.containsKey(c.getString(2))){
+            URLSmsHashMap.get(c.getString(2)).add(hmds);
+          }else{
+            ArrayList<HashMapDetail_SMS> list = new ArrayList<>();
+            list.add(hmds);
+            URLSmsHashMap.put(c.getString(2),list);
+          }
+        }
+        //070 번호 문자
+        if(hmds.getAddress().contains("070")){
+          if(zeroSevenSmsHashMap.containsKey(c.getString(2))){
+            zeroSevenSmsHashMap.get(c.getString(2)).add(hmds);
+          }else{
+            ArrayList<HashMapDetail_SMS> list = new ArrayList<>();
+            list.add(hmds);
+            zeroSevenSmsHashMap.put(c.getString(2),list);
+          }
+        }
+        //[Web 발신]
+        if(hmds.getBody().contains("[Web발신]")){
+          if(webSmsHashMap.containsKey(c.getString(2))){
+            webSmsHashMap.get(c.getString(2)).add(hmds);
+          }else {
+            ArrayList<HashMapDetail_SMS> list = new ArrayList<>();
+            list.add(hmds);
+            webSmsHashMap.put(c.getString(2), list);
+          }
+        }
+        //(광고)
+        if(hmds.getBody().contains("(광고)")){
+          if(adSmsHashMap.containsKey(c.getString(2))){
+            adSmsHashMap.get(c.getString(2)).add(hmds);
+          }else {
+            ArrayList<HashMapDetail_SMS> list = new ArrayList<>();
+            list.add(hmds);
+            adSmsHashMap.put(c.getString(2), list);
+          }
+        }
+        //[국외발신]
+        if(hmds.getBody().contains("[국외발신]")){
+          if(overseaSmsHashMap.containsKey(c.getString(2))){
+            overseaSmsHashMap.get(c.getString(2)).add(hmds);
+          }else {
+            ArrayList<HashMapDetail_SMS> list = new ArrayList<>();
+            list.add(hmds);
+            overseaSmsHashMap.put(c.getString(2), list);
+          }
+        }
+
+      }
+      //새로운 번호에서 온 문자라면
+      else {
         HashMapDetail_SMS hmds = new HashMapDetail_SMS();
         ArrayList<HashMapDetail_SMS> list = new ArrayList<>();
 
@@ -138,8 +218,59 @@ public class DataCenter {
 
         list.add(hmds);
         smsHashMap.put(c.getString(2),list);
+
+        //Url
+        if(hmds.getBody().contains("www") || hmds.getBody().contains("http") ){
+          if(URLSmsHashMap.containsKey(c.getString(2))){
+            URLSmsHashMap.get(c.getString(2)).add(hmds);
+          }else{
+            ArrayList<HashMapDetail_SMS> newList = new ArrayList<>();
+            newList.add(hmds);
+            URLSmsHashMap.put(c.getString(2),newList);
+          }
+        }
+        //070 번호 문자
+        if(hmds.getAddress().contains("070")){
+          if(zeroSevenSmsHashMap.containsKey(c.getString(2))){
+            zeroSevenSmsHashMap.get(c.getString(2)).add(hmds);
+          }else{
+            ArrayList<HashMapDetail_SMS> newList = new ArrayList<>();
+            newList.add(hmds);
+            zeroSevenSmsHashMap.put(c.getString(2),newList);
+          }
+        }
+        //[Web 발신]
+        if(hmds.getBody().contains("[Web발신]")){
+          if(webSmsHashMap.containsKey(c.getString(2))){
+            webSmsHashMap.get(c.getString(2)).add(hmds);
+          }else {
+            ArrayList<HashMapDetail_SMS> newList = new ArrayList<>();
+            newList.add(hmds);
+            webSmsHashMap.put(c.getString(2), newList);
+          }
+        }
+        //(광고)
+        if(hmds.getBody().contains("(광고)")){
+          if(adSmsHashMap.containsKey(c.getString(2))){
+            adSmsHashMap.get(c.getString(2)).add(hmds);
+          }else {
+            ArrayList<HashMapDetail_SMS> newList = new ArrayList<>();
+            newList.add(hmds);
+            adSmsHashMap.put(c.getString(2), newList);
+          }
+        }
+        //[국외발신]
+        if(hmds.getBody().contains("[국외발신]")){
+          if(overseaSmsHashMap.containsKey(c.getString(2))){
+            overseaSmsHashMap.get(c.getString(2)).add(hmds);
+          }else {
+            ArrayList<HashMapDetail_SMS> newList = new ArrayList<>();
+            newList.add(hmds);
+            overseaSmsHashMap.put(c.getString(2), newList);
+          }
+        }
       }
-      totalSMSNumber ++;
+      totalSMSNumber++;
     }
   }
 

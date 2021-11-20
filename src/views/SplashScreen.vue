@@ -5,12 +5,9 @@
             logo img
         </div>
         <div class='button_section'>
-        
-            
             <div class='start_button' v-on:click="goHome">
                 시작하기
-            </div>
-           
+            </div> 
         </div>
 
     </div>

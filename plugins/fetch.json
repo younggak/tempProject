@@ -2,7 +2,7 @@
   "info.androidabcd.plugins.custom": {
     "source": {
       "type": "local",
-      "path": "C:\\labo\\tempProject\\node_modules\\info.androidabcd.plugins.custom"
+      "path": "C:\\laboo\\tempProject\\node_modules\\info.androidabcd.plugins.custom"
     },
     "is_top_level": true,
     "variables": {}

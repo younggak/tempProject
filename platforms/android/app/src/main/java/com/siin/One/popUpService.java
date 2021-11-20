@@ -2,13 +2,16 @@ package com.siin.One;
 
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chaquo.python.PyObject;
@@ -24,6 +27,8 @@ public class popUpService extends Service {
   private TextView bodyText;
   private TextView numberText;
   private TextView checkText;
+  private RelativeLayout alert_layout;
+  private TextView alert_textview;
   public popUpService() {
   }
 
@@ -43,13 +48,15 @@ public class popUpService extends Service {
     bodyText = (TextView)fancyLl.findViewById(R.id.bodyText);
     numberText = (TextView)fancyLl.findViewById(R.id.numberText);
     checkText = (TextView)fancyLl.findViewById(R.id.checkText);
+    alert_layout = (RelativeLayout)fancyLl.findViewById(R.id.alert_layout);
+    alert_textview = (TextView)fancyLl.findViewById(R.id.alert_textview);
 
-    WindowManager.LayoutParams parameters = new WindowManager.LayoutParams(800,500,
+    WindowManager.LayoutParams parameters = new WindowManager.LayoutParams(800,700,
       WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
       ,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
 
     parameters.x = 0;
-    parameters.y = 0;
+    parameters.y = -400;
     parameters.gravity = Gravity.CENTER | Gravity.CENTER;
 
     stopBtn.setOnClickListener(new View.OnClickListener(){
@@ -72,6 +79,11 @@ public class popUpService extends Service {
     bodyText.setText(body);
     numberText.setText(number);
 
+    if(body.contains("금융")){
+      Drawable drawable = getResources().getDrawable(R.drawable.layout_bg_only_top_radius_red);
+      alert_layout.setBackground(drawable);
+      alert_textview.setText("피싱위험문자");
+    }
     SMSBook sb = new SMSBook();
     sb.setNumber(number);
     sb.setText(body);

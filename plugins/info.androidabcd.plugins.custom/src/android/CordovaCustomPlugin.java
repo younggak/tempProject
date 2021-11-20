@@ -63,7 +63,6 @@ public class CordovaCustomPlugin extends CordovaPlugin {
                     result = result + temp + "--" + tl.get(i).getBody()+"--"+ tl.get(i).getTimestamp() + "^&";
                     i++;
                 }
-        
             }
             callbackContext.success(result);
             return true;
@@ -107,6 +106,88 @@ public class CordovaCustomPlugin extends CordovaPlugin {
                     i++;
                 }
             }
+            callbackContext.success(result);
+            return true;
+        }
+
+
+        else if(action.equals("getURLSmsHashMap")){
+            String result = "";
+
+            for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getURLSmsHashMap().entrySet()){
+                String temp = entrySet.getKey();
+                ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
+                int i = 0;
+                while(i<tl.size()){
+                    result = result + temp + "--" + tl.get(i).getBody()+"--"+ tl.get(i).getTimestamp() + "^&";
+                    i++;
+                }
+            }
+
+            callbackContext.success(result);
+            return true;
+        }
+        else if(action.equals("getWebSmsHashMap")){
+            String result = "";
+
+            for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getWebSmsHashMap().entrySet()){
+                String temp = entrySet.getKey();
+                ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
+                int i = 0;
+                while(i<tl.size()){
+                    result = result + temp + "--" + tl.get(i).getBody()+"--"+ tl.get(i).getTimestamp() + "^&";
+                    i++;
+                }
+            }
+
+            callbackContext.success(result);
+            return true;
+        }
+        else if(action.equals("getZeroSevenSmsHashMap")){
+            String result = "";
+
+            for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getZeroSevenSmsHashMap().entrySet()){
+                String temp = entrySet.getKey();
+                ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
+                int i = 0;
+                while(i<tl.size()){
+                    result = result + temp + "--" + tl.get(i).getBody()+"--"+ tl.get(i).getTimestamp() + "^&";
+                    i++;
+                }
+            }
+
+            callbackContext.success(result);
+            return true;
+        }
+        else if(action.equals("getAdSmsHashMap")){
+            String result = "";
+
+            for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getAdSmsHashMap().entrySet()){
+                String temp = entrySet.getKey();
+                ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
+                int i = 0;
+                while(i<tl.size()){
+                    result = result + temp + "--" + tl.get(i).getBody()+"--"+ tl.get(i).getTimestamp() + "^&";
+                    i++;
+                }
+            }
+            
+            callbackContext.success(result);
+            return true;
+        }
+        else if(action.equals("getOverseaSmsHashMap")){
+            String result = "";
+
+            for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getOverseaSmsHashMap().entrySet()){
+                String temp = entrySet.getKey();
+                ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
+                int i = 0;
+                while(i<tl.size()){
+                    result = result + temp + "--" + tl.get(i).getBody()+"--"+ tl.get(i).getTimestamp() + "^&";
+                    i++;
+                }
+            }
+
             callbackContext.success(result);
             return true;
         }
@@ -160,6 +241,45 @@ public class CordovaCustomPlugin extends CordovaPlugin {
         }
     }
     private void getNotBookedSMS(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+
+
+
+
+    private void getURLSmsHashMap(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+    private void getWebSmsHashMap(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+    private void getZeroSevenSmsHashMap(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+    private void getAdSmsHashMap(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+    private void getOverseaSmsHashMap(String message, CallbackContext callbackContext) {
         if (message != null && message.length() > 0) {
             callbackContext.success(message);
         } else {
