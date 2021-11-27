@@ -24,11 +24,9 @@
     <div id="home_cat">
       <div :class="{
                   'background_fish': level==4 , 
-                  'background_rain':level==3,
+                  'background_rain': level==3 || level==0,
                   'background_caution' :level==2,
                   'background_warning': level==1,
-                  'background_fish': level==0, 
-
                   }">
           <img v-if="level==4" src="assets/cat.svg" id="catFace_img" />
           <img v-if="level==3" src="assets/cat_gloomy.svg" id="catFace_img" />
@@ -50,10 +48,10 @@
               'score_current_red': level==1,
               'score_current_blue': level==0,
               }">
-              <span v-if="level == 0">-</span>
+              <span v-if="level == 0" style="margin-right: 10%;">-</span>
               <span v-if="level != 0">{{score_number}}</span>
-              </div>
-
+            </div>
+            
             <div id="score_total">/100</div>
         </div>
         <div  v-if="level==4" id='home_score_ment'>
@@ -67,6 +65,9 @@
         </div>
         <div  v-if="level==1" id='home_score_ment3'>
             피싱에 취약합니다.
+        </div>
+        <div  v-if="level==0" id='home_score_ment3'>
+            
         </div>
     </div>
 
@@ -113,7 +114,7 @@
                   :to="score_number"
                   :duration="1"
                     :delay="0"
-                    easing="Power3.easeOut"/>
+                    easing="Power2.easeOut"/>
 
                 </div>
 
@@ -188,7 +189,7 @@
             <div v-if="level==1">
                 지금 바로 피싱 분석이 필요합니다.
             </div>
-            <div v-if="level==0">         </div>
+            
             <div v-if="level==0">피싱분석을 눌러</div>
             <div v-if="level==0">홍길동님의 보안지수를 확인해주세요</div>
         </div>
@@ -1458,6 +1459,7 @@ function function_getBookedSMS(result){
 }
 /*유형 페이지*/
 .score_current_green{
+  
 	display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -1592,6 +1594,8 @@ function function_getBookedSMS(result){
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  
 }
 
 #home_score_row{
@@ -1658,8 +1662,9 @@ function function_getBookedSMS(result){
     align-items: center;
     justify-content: center;
 
+    /* background-color: #e60012; */
     width: 100%;
-	flex: 3 1 0;
+	flex: 2.2 1 0;
 	/* background-color: cyan; */
 }
 
@@ -1669,12 +1674,17 @@ function function_getBookedSMS(result){
     align-items: center;
     justify-content: center;
 
+  
 	width: 100%;
 	flex: 3 1 0;
 	/* background-color:gold; */
 }
 
 #detail_text_text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
     color:#9fa0a0;
 }
 
@@ -1795,7 +1805,7 @@ function function_getBookedSMS(result){
   align-items: center;
   justify-content: center;
 
-  height: 50%;
+  height: 60%;
   width: 40%;
   border-radius: 25px;
   background-color: #0473e1;
