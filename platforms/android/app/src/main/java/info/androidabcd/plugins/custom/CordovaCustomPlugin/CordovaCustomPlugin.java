@@ -51,9 +51,23 @@ public class CordovaCustomPlugin extends CordovaPlugin {
             callbackContext.success(numbers + "#" + texts);
             return true;
         }
+        else if(action.equals("refreshPhoneBookDataBase")){
+            String result = "";
+            DataCenter.getInstance().refreshPhoneBookDataBase(MainActivity.getContextOfApplication());
+            for(Map.Entry<String , HashMapDetail_PhoneBook> entrySet : DataCenter.getInstance().getPhoneBookHashMap().entrySet()){
+                result = result + entrySet.getKey() +"--"+ entrySet.getValue().getName()+"@";
+            }
+            callbackContext.success(result);
+            return true;
+        }
+        else if(action.equals("getTotalScore")){
+            float result = 0;
+            result = DataCenter.getInstance().getTotalScore();
+            callbackContext.success(result + "");
+            return true;
+        }
         else if(action.equals("refreshSMSDataBase")){
             String result = "";
-            
             DataCenter.getInstance().refreshSMSDataBase(MainActivity.getContextOfApplication());
             for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet: DataCenter.getInstance().getSmsHashMap().entrySet()){
                 String temp = entrySet.getKey();
@@ -67,19 +81,8 @@ public class CordovaCustomPlugin extends CordovaPlugin {
             callbackContext.success(result);
             return true;
         } 
-        else if(action.equals("refreshPhoneBookDataBase")){
-            String result = "";
-            DataCenter.getInstance().refreshPhoneBookDataBase(MainActivity.getContextOfApplication());
-            for(Map.Entry<String , HashMapDetail_PhoneBook> entrySet : DataCenter.getInstance().getPhoneBookHashMap().entrySet()){
-                result = result + entrySet.getKey() +"--"+ entrySet.getValue().getName()+"@";
-            }
-            callbackContext.success(result);
-            return true;
-        }
         else if(action.equals("getBookedSMS")){
             String result = "";
-
-            DataCenter.getInstance().refreshBookedSmsHashMap();
             for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getBookedSmsHashMap().entrySet()){
                 String temp = entrySet.getKey();
                 ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
@@ -95,8 +98,6 @@ public class CordovaCustomPlugin extends CordovaPlugin {
 
         else if(action.equals("getNotBookedSMS")){
             String result = "";
-
-            DataCenter.getInstance().refreshBookedSmsHashMap();
             for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getNotBookedSmsHashMap().entrySet()){
                 String temp = entrySet.getKey();
                 ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
@@ -113,7 +114,6 @@ public class CordovaCustomPlugin extends CordovaPlugin {
 
         else if(action.equals("getURLSmsHashMap")){
             String result = "";
-
             for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getURLSmsHashMap().entrySet()){
                 String temp = entrySet.getKey();
                 ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
@@ -123,13 +123,11 @@ public class CordovaCustomPlugin extends CordovaPlugin {
                     i++;
                 }
             }
-
             callbackContext.success(result);
             return true;
         }
         else if(action.equals("getWebSmsHashMap")){
             String result = "";
-
             for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getWebSmsHashMap().entrySet()){
                 String temp = entrySet.getKey();
                 ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
@@ -139,13 +137,11 @@ public class CordovaCustomPlugin extends CordovaPlugin {
                     i++;
                 }
             }
-
             callbackContext.success(result);
             return true;
         }
         else if(action.equals("getZeroSevenSmsHashMap")){
             String result = "";
-
             for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getZeroSevenSmsHashMap().entrySet()){
                 String temp = entrySet.getKey();
                 ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
@@ -155,13 +151,11 @@ public class CordovaCustomPlugin extends CordovaPlugin {
                     i++;
                 }
             }
-
             callbackContext.success(result);
             return true;
         }
         else if(action.equals("getAdSmsHashMap")){
             String result = "";
-
             for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getAdSmsHashMap().entrySet()){
                 String temp = entrySet.getKey();
                 ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
@@ -171,13 +165,11 @@ public class CordovaCustomPlugin extends CordovaPlugin {
                     i++;
                 }
             }
-            
             callbackContext.success(result);
             return true;
         }
         else if(action.equals("getOverseaSmsHashMap")){
             String result = "";
-
             for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : DataCenter.getInstance().getOverseaSmsHashMap().entrySet()){
                 String temp = entrySet.getKey();
                 ArrayList<HashMapDetail_SMS> tl = entrySet.getValue();
@@ -187,7 +179,6 @@ public class CordovaCustomPlugin extends CordovaPlugin {
                     i++;
                 }
             }
-
             callbackContext.success(result);
             return true;
         }

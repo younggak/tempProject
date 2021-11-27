@@ -3,7 +3,7 @@ import $ from "jquery";
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-// import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 // import "bootstrap/dist/css/bootstrap.css";
 // import "bootstrap-vue/dist/bootstrap-vue.css";
 import Donut from 'vue-css-donut-chart';
@@ -14,6 +14,9 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+
+import VueNumber from 'vue-number-animation'
+
 
 const ENV = { isNative: false };
 
@@ -28,8 +31,9 @@ function onServiceReady() {
   // Vue.use(IconsPlugin);
   Vue.use(Donut);
   Vue.use(VueBottomSheet);
-
-  Vue.use(Vuetify)
+  Vue.use(IconsPlugin);
+  Vue.use(Vuetify);
+  Vue.use(VueNumber);
   
   
   Vue.config.productionTip = false;

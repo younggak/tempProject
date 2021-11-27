@@ -20,8 +20,14 @@ module.exports = {
     },
     devtool: "inline-source-map",
     devServer: {
-        contentBase: './www',
-        overlay: true // 오류내용을 화면에 보여주게 함.
+        // static: {
+        //     directory: path.join(__dirname, 'public'),
+        //   },
+        // compress: true,
+        port: 8800,
+        // hot:true,
+        // host:"localhost",
+        // port: 8800,
     },
     resolve: {
         alias: {

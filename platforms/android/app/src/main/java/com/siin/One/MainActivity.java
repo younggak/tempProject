@@ -55,6 +55,8 @@ public class MainActivity extends CordovaActivity
             Manifest.permission.RECEIVE_SMS,
             Manifest.permission.READ_CONTACTS,
             Manifest.permission.READ_SMS,
+            Manifest.permission.RECEIVE_MMS,
+            Manifest.permission.RECEIVE_WAP_PUSH
     };
     private List permissionList;
 
@@ -64,6 +66,8 @@ public class MainActivity extends CordovaActivity
                         Manifest.permission.RECEIVE_SMS,
                         Manifest.permission.READ_CONTACTS,
                         Manifest.permission.READ_SMS,
+                        Manifest.permission.RECEIVE_MMS,
+                        Manifest.permission.RECEIVE_WAP_PUSH
                 },
                 1000);
         goSetting();
@@ -77,9 +81,7 @@ public class MainActivity extends CordovaActivity
                     .setPositiveButton("권한 받기", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialogInterface, int i) {
                             getPermissions();
-
                         }
-
                     }) .setNegativeButton("앱 종료", new DialogInterface.OnClickListener() {
                 @Override public void onClick(DialogInterface dialogInterface, int i) {
                     finish();
@@ -95,10 +97,8 @@ public class MainActivity extends CordovaActivity
     }
 
     // 설정 화면을 갔다오면 실행되는 메소드
-
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 
     @Override

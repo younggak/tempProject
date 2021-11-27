@@ -22,8 +22,19 @@
     
 
     <div id="home_cat">
-      <div id="background_fish">
-          <img src="assets/cat.svg" id="catFace_img" />
+      <div :class="{
+                  'background_fish': level==4 , 
+                  'background_rain':level==3,
+                  'background_caution' :level==2,
+                  'background_warning': level==1,
+                  'background_fish': level==0, 
+
+                  }">
+          <img v-if="level==4" src="assets/cat.svg" id="catFace_img" />
+          <img v-if="level==3" src="assets/cat_gloomy.svg" id="catFace_img" />
+          <img v-if="level==2" src="assets/cat_angry.svg" id="catFace_img" />
+          <img v-if="level==1" src="assets/cat_dead.svg" id="catFace_img" />
+          <img v-if="level == 0" src="assets/cat_zero.svg" id="catFace_img" />
 		  <!-- <div id='background_head'>
 			 
 		  </div> -->
@@ -33,52 +44,677 @@
 
     <div id="home_score_column">
         <div id="home_score_row">
-            <div id="score_current">{{score_number}}</div>
+            <div :class="{'score_current_green':level==4,
+              'score_current_yellow':level==3,
+              'score_current_orange':level==2,
+              'score_current_red': level==1,
+              'score_current_blue': level==0,
+              }">
+              <span v-if="level == 0">-</span>
+              <span v-if="level != 0">{{score_number}}</span>
+              </div>
+
             <div id="score_total">/100</div>
         </div>
-        <div id='home_score_ment'>
+        <div  v-if="level==4" id='home_score_ment'>
             완벽한 방어중입니다.
+        </div>
+        <div  v-if="level==3" id='home_score_ment1'>
+            관리가 필요합니다.
+        </div>
+        <div  v-if="level==2" id='home_score_ment2'>
+            주의가 필요합니다.
+        </div>
+        <div  v-if="level==1" id='home_score_ment3'>
+            피싱에 취약합니다.
         </div>
     </div>
 
 	<div id='detail_button'> 
-        <div id='detail_button_btn' v-on:click='goSMSscore'>피싱 분석</div>
-   <!-- smsDetailPageToggle=!smsDetailPageToggle -->
+        <div id='detail_button_btn' v-on:click='phishingAnalysis'>피싱 분석</div>
+        
+        <!-- #############피싱 분석 페이지 시작점 ###################-->
+        <v-bottom-sheet
+          class="overflow-y-auto"
+          v-model="GahyeonSmsDetailPageToggle"
+          fullscreen
+          overlay-color="white"
+          max-height="auto"
+          scrollable
+        >
+          <v-sheet class="overflow-y-auto" style="text-align: center">
+            <!-- 피싱 분석 페이지 시작점 -->
+            <div class="analysis_top">
+              <b-icon-x
+                id="x_button"
+                @click="GahyeonSmsDetailPageToggle = !GahyeonSmsDetailPageToggle"
+              />
+              <div id="analysis_title">
+                <img src="assets/we_ka_t.png" id="anlysis_title_img" />
+              </div>
+              <div id="empty_box_2"></div>
+            </div>
+            <div id="analysis_type">피싱 분석</div>
+            <div id="analysis_safety_score">문자 안심점수</div>
+            <br />
+
+            <div id="home_score_column">
+              <div id="home_score_row">
+                <div :class="{
+                  'score_current_green': level==4,
+                  'score_current_yellow': level==3,
+                  'score_current_orange': level==2,
+                  'score_current_red': level==1,
+                  }">
+
+                  <number
+                  ref="number1"
+                  :from="0"
+                  :to="score_number"
+                  :duration="1"
+                    :delay="0"
+                    easing="Power3.easeOut"/>
+
+                </div>
+
+                <div id="score_total">/100</div>
+              </div>
+            </div>
+
+              <br/>
+
+              <div
+                style="
+                  font-size: 20px;
+                  font-family: 'Gowun Dodum', sans-serif;
+                  text-align: center;
+                  color: grey;
+                "
+              >
+                <div>
+                  홍길동님의 보안지수는
+                  <span :class="{ 
+                    'level_green':level==4,
+                  'level_yellow':level==3,
+                  'level_orange':level==2,
+                  'level_red':level==1,}">Lv.{{level}}</span>입니다.
+                  <!--Level should be changed by score.-->
+                </div>
+
+
+                <div v-if="level==4">
+                지금처럼 보안습관을 유지해주세요.
+                </div>
+                <div v-if="level==3">
+                    피싱 분석을 통한 관리가 필요합니다.
+                </div>
+                <div v-if="level==2">
+                    피싱 분석을 통한 주의가 필요합니다.
+                </div>
+                <div v-if="level==1">
+                    지금 바로 피싱 분석이 필요합니다.
+                </div>
+
+
+                <div >
+                <!--Comments should be changed by score.-->
+              </div>
+            </div>
+          </v-sheet>
+        </v-bottom-sheet>
+  
 	</div>
 
 	<div id='detail_text'>
         <div id='detail_text_text'> 
-            <div>
-                홍길동님의 보안지수는<span id='home_level'>Lv.4</span>입니다.
+            <div v-if="level!=0">
+                홍길동님의 보안지수는<span 
+                :class="{
+                  'level_green':level==4,
+                  'level_yellow':level==3,
+                  'level_orange':level==2,
+                  'level_red':level==1,
+                }">Lv.{{level}}</span>입니다.
             </div> 
-            <div>
+            <div v-if="level==4">
                 지금처럼 보안습관을 유지해주세요.
             </div>
+            <div v-if="level==3">
+                피싱 분석을 통한 관리가 필요합니다.
+            </div>
+            <div v-if="level==2">
+                피싱 분석을 통한 주의가 필요합니다.
+            </div>
+            <div v-if="level==1">
+                지금 바로 피싱 분석이 필요합니다.
+            </div>
+            <div v-if="level==0">         </div>
+            <div v-if="level==0">피싱분석을 눌러</div>
+            <div v-if="level==0">홍길동님의 보안지수를 확인해주세요</div>
         </div>
 	</div>
 
 	<div id='detail_score'> 
 		<div class='detail_score_section'>
-            <img src='assets/type.svg'>
+            <img src='assets/type.svg' v-on:click="GahyeonType=!GahyeonType">
             <!-- <div id='sms_number'>{{susinSMS}}</div>
             <div id='detail_score_text'>수신문자</div> -->
         </div>
 		<div class='detail_score_section'>
-            <img src='assets/time.svg'>
+            <img src='assets/time.svg' v-on:click='GahyeonTime=!GahyeonTime'>
             <!-- <div id='question_number'>{{nowaySMS}}</div>
             <div id='detail_score_text'>알 수 없는 문자</div> -->
         </div>
 		<div class='detail_score_section'>
-            <img src='assets/sms_icon.svg'>
+            <img src='assets/sms_icon.svg' v-on:click='GahyeonSms=!GahyeonSms'>
             <div id='detail_score_text'>문자</div>
-            <div id='exclamation_number'>{{uisimSMS}} / {{uisimSMS}} / {{uisimSMS}}</div>
+            
+            <div id='exclamation_number'>
+              <span style="color: #009944; font-size:10px;">{{fullSMS}}</span>
+              <span class='slash_between'>/</span> 
+              <span style="color: #ffcc00; font-size:10px;">{{notInSMS}}</span> 
+              <span class='slash_between'>/</span>  
+              <span style="color: #e60012; font-size:10px;">{{adSMS}}</span>
+            </div>
             
         </div>
         <div class='detail_score_section'>
-            <img src='assets/word.svg'>
+            <img src='assets/word.svg' v-on:click='GahyeonWord=!GahyeonWord'>
             <!-- <div id='question_number'>{{nowaySMS}}</div>
             <div id='detail_score_text'>알 수 없는 문자</div> -->
         </div>
+
+
+        <!--#########################유형!!!!!!!#######################--->
+          <v-bottom-sheet
+            class="overflow-y-auto"
+            v-model="GahyeonType"
+            fullscreen
+            overlay-color="white"
+            max-height="auto"
+            scrollable
+          >
+            <v-sheet class="overflow-y-auto" style="text-align: center">
+
+              <div class="analysis_top">
+                <b-icon-x id="x_button" @click="GahyeonType = !GahyeonType" />
+                <div id="analysis_title">
+                  <img src="assets/we_ka_t.png" id="anlysis_title_img" />
+                </div>
+                <div id="empty_box_2"></div>
+              </div>
+              <div id="analysis_type">유형</div>
+              <br/>
+              <template>
+                <swiper
+                  class="swiper"
+                  :options="swiperOption"
+                  style="width: 80%"
+                >
+                  <swiper-slide>2021-11-01 ~ 2021-11-08</swiper-slide>
+                  <swiper-slide>2021-11-09 ~ 2021-11-17</swiper-slide>
+                  <swiper-slide>2021-11-18 ~ 2021-11-25</swiper-slide>
+                  <div class="swiper-button-prev" slot="button-prev"></div>
+                  <div class="swiper-button-next" slot="button-next"></div>
+                </swiper>
+              </template>
+              <div id="analysis_safety_score">
+                   한주 동안 가장 많이 받은 유형
+              </div>
+              
+              <template>
+                <vc-donut
+                  :sections="sortedArrayTypeSection"
+                  :thickness="50"
+                  :has-legend="true"
+                  style="
+                    font-size: 10px;
+                    font-family: 'Gowun Dodum', sans-serif;
+                  "
+                >
+                  <b>미등록된</b> <br> 
+                  <b>번호</b>
+                </vc-donut>
+              </template>
+              <div id='typeSection_list'>
+                
+                <div class = 'typeSection_list_component'>
+                  <div class = 'typeSection_list_component_left'>
+                    <div> 
+                      1. {{sortedArray[0].title}}
+                    </div>
+                    <div class = 'typeSection_list_component_left_number'> 
+                      {{sortedArray[0].number}} messages
+                    </div>
+                  </div>
+                  <div class = 'typeSection_list_component_blank'>
+                       
+                  </div>
+                  <div class = 'typeSection_list_component_right'>14일 전</div>
+                </div>
+
+                <div class = 'typeSection_list_component'>
+                  <div class = 'typeSection_list_component_left'>
+                    <div> 
+                      2. {{sortedArray[1].title}}
+                    </div>
+                    <div class = 'typeSection_list_component_left_number'> 
+                      {{sortedArray[1].number}} messages
+                    </div>
+                  </div>
+                  <div class = 'typeSection_list_component_blank'></div>
+                  <div class = 'typeSection_list_component_right'>14일 전</div>
+                </div>
+
+                <div class = 'typeSection_list_component'>
+                  <div class = 'typeSection_list_component_left'>
+                    <div> 
+                      3. {{this.sortedArray[2].title}}
+                    </div>
+                    <div class = 'typeSection_list_component_left_number'> 
+                      {{this.sortedArray[2].number}} messages
+                    </div>
+                  </div>
+                  <div class = 'typeSection_list_component_blank'></div>
+                  <div class = 'typeSection_list_component_right'>14일 전</div>
+                </div>
+
+                <div class = 'typeSection_list_component'>
+                   <div class = 'typeSection_list_component_left'>
+                    <div> 
+                      4. {{this.sortedArray[3].title}}
+                    </div>
+                    <div class = 'typeSection_list_component_left_number'> 
+                      {{this.sortedArray[3].number}} messages
+                    </div>
+                  </div>
+                  <div class = 'typeSection_list_component_blank'></div>
+                  <div class = 'typeSection_list_component_right'>14일 전</div>
+                </div>
+
+                <div class = 'typeSection_list_component2'>
+                  <div class = 'typeSection_list_component_left'>
+                    <div> 
+                      5. {{this.sortedArray[4].title}}
+                    </div>
+                    <div class = 'typeSection_list_component_left_number'> 
+                      {{this.sortedArray[4].number}} messages
+                    </div>
+                  </div>
+                  <div class = 'typeSection_list_component_blank'></div>
+                  <div class = 'typeSection_list_component_right'>14일 전</div>
+                </div>
+              </div>
+            
+
+            </v-sheet>
+          </v-bottom-sheet>
+
+        <!--##########################시간!!!!!######################--->
+          <v-bottom-sheet
+            class="overflow-y-auto"
+            v-model="GahyeonTime"
+            fullscreen
+            overlay-color="white"
+            max-height="auto"
+            scrollable
+          >
+            <v-sheet class="overflow-y-auto" style="text-align: center">
+              
+              <div class="analysis_top">
+                <b-icon-x id="x_button" @click="GahyeonTime = !GahyeonTime" />
+                <div id="analysis_title">
+                  <img src="assets/we_ka_t.png" id="anlysis_title_img" />
+                </div>
+                <div id="empty_box_2"></div>
+              </div>
+
+              <div id="analysis_type_long">
+                기간, 시간별로 수신한 피싱의심문자의 빈도수를 확인할 수
+                있습니다.
+              </div>
+
+              <br/>
+              
+              <v-tabs
+                v-model="timeTabsCurrentItem"
+                background-color="light-grey"
+                color="blue"
+                grow
+              >
+                <v-tab><b>1개월</b></v-tab>
+                <v-tab><b>3개월</b></v-tab>
+                <v-tab><b>전체</b></v-tab>
+              </v-tabs>
+              <br/>
+
+              <v-tabs-items v-model="timeTabsCurrentItem">
+                <v-tab-item>
+                  <template>
+                <swiper
+                  class="swiper"
+                  :options="swiperOption"
+                  style="width: 80%; font-family: 'Gowun Dodum', sans-serif"
+                >
+                  <swiper-slide>2021-11-01 ~ 2021-11-08</swiper-slide>
+                  <swiper-slide>2021-11-09 ~ 2021-11-17</swiper-slide>
+                  <swiper-slide>2021-11-18 ~ 2021-11-25</swiper-slide>
+                  <div class="swiper-button-prev" slot="button-prev"></div>
+                  <div class="swiper-button-next" slot="button-next"></div>
+                </swiper>
+              </template>
+
+
+              
+              <bar-chart
+                :chart-data="bar_datacollection"
+                :options="bar_option"
+                style="margin: 10% 5% 10% 5%"
+              ></bar-chart>
+              <div
+                style="
+                  width: 100%;
+                  margin: auto;
+                  height: 6px;
+                  background: #e6e6e6;
+                  border: #e6e6e6 1px solid;
+                "
+              />
+
+              <div id="analysis_safety_score">타임 리포트</div>
+              <template>
+                <swiper
+                  class="swiper"
+                  :options="swiperOption"
+                  style="width: 80%"
+                >
+                  <swiper-slide>2021-11-01</swiper-slide>
+                  <swiper-slide>2021-11-02</swiper-slide>
+                  <swiper-slide>2021-11-03</swiper-slide>
+                  <div class="swiper-button-prev" slot="button-prev"></div>
+                  <div class="swiper-button-next" slot="button-next"></div>
+                </swiper>
+              </template>
+              <line-chart
+                :chart-data="line_datacollection"
+                :options="line_option"
+                style="margin: 10% 5% 10% 5%"
+              ></line-chart>
+                </v-tab-item>
+
+                <v-tab-item>
+                 <template>
+                <swiper
+                  class="swiper"
+                  :options="swiperOption"
+                  style="width: 80%; font-family: 'Gowun Dodum', sans-serif"
+                >
+                  <swiper-slide>2021-11-01 ~ 2021-11-08</swiper-slide>
+                  <swiper-slide>2021-11-09 ~ 2021-11-17</swiper-slide>
+                  <swiper-slide>2021-11-18 ~ 2021-11-25</swiper-slide>
+                  <div class="swiper-button-prev" slot="button-prev"></div>
+                  <div class="swiper-button-next" slot="button-next"></div>
+                </swiper>
+              </template>
+
+
+              
+              <bar-chart
+                :chart-data="bar_datacollection"
+                :options="bar_option"
+                style="margin: 10% 5% 10% 5%"
+              ></bar-chart>
+              <div
+                style="
+                  width: 100%;
+                  margin: auto;
+                  height: 6px;
+                  background: #e6e6e6;
+                  border: #e6e6e6 1px solid;
+                "
+              />
+
+              <div id="analysis_safety_score">타임 리포트</div>
+              <template>
+                <swiper
+                  class="swiper"
+                  :options="swiperOption"
+                  style="width: 80%"
+                >
+                  <swiper-slide>2021-11-01</swiper-slide>
+                  <swiper-slide>2021-11-02</swiper-slide>
+                  <swiper-slide>2021-11-03</swiper-slide>
+                  <div class="swiper-button-prev" slot="button-prev"></div>
+                  <div class="swiper-button-next" slot="button-next"></div>
+                </swiper>
+              </template>
+              <line-chart
+                :chart-data="line_datacollection"
+                :options="line_option"
+                style="margin: 10% 5% 10% 5%"
+              ></line-chart>
+                </v-tab-item>
+
+                <v-tab-item>
+                  <template>
+                <swiper
+                  class="swiper"
+                  :options="swiperOption"
+                  style="width: 80%; font-family: 'Gowun Dodum', sans-serif"
+                >
+                  <swiper-slide>2021-11-01 ~ 2021-11-08</swiper-slide>
+                  <swiper-slide>2021-11-09 ~ 2021-11-17</swiper-slide>
+                  <swiper-slide>2021-11-18 ~ 2021-11-25</swiper-slide>
+                  <div class="swiper-button-prev" slot="button-prev"></div>
+                  <div class="swiper-button-next" slot="button-next"></div>
+                </swiper>
+              </template>
+
+
+              
+              <bar-chart
+                :chart-data="bar_datacollection"
+                :options="bar_option"
+                style="margin: 10% 5% 10% 5%"
+              ></bar-chart>
+              <div
+                style="
+                  width: 100%;
+                  margin: auto;
+                  height: 6px;
+                  background: #e6e6e6;
+                  border: #e6e6e6 1px solid;
+                "
+              />
+
+              <div id="analysis_safety_score">타임 리포트</div>
+              <template>
+                <swiper
+                  class="swiper"
+                  :options="swiperOption"
+                  style="width: 80%"
+                >
+                  <swiper-slide>2021-11-01</swiper-slide>
+                  <swiper-slide>2021-11-02</swiper-slide>
+                  <swiper-slide>2021-11-03</swiper-slide>
+                  <div class="swiper-button-prev" slot="button-prev"></div>
+                  <div class="swiper-button-next" slot="button-next"></div>
+                </swiper>
+              </template>
+              <line-chart
+                :chart-data="line_datacollection"
+                :options="line_option"
+                style="margin: 10% 5% 10% 5%"
+              ></line-chart>
+                </v-tab-item>
+              </v-tabs-items>
+
+
+              
+            </v-sheet>
+          </v-bottom-sheet>
+
+         <!--#####################스미싱관련문자####################--->
+          <v-bottom-sheet
+            class="overflow-y-auto"
+            v-model="GahyeonSms"
+            fullscreen
+            overlay-color="white"
+            max-height="auto"
+            scrollable
+          >
+            <v-sheet class="overflow-y-auto" style="text-align: center">
+              <div class="analysis_top">
+                <b-icon-x id="x_button" @click="GahyeonSms = !GahyeonSms" />
+                <div id="analysis_title">
+                  <img src="assets/we_ka_t.png" id="anlysis_title_img" />
+                </div>
+                <div id="empty_box_2"></div>
+              </div>
+              <div id="analysis_type">문자</div>
+              <br />
+              <template>
+                <swiper
+                  class="swiper"
+                  :options="swiperOption"
+                  style="width: 80%"
+                >
+                  <swiper-slide>2021-11-01 ~ 2021-11-08</swiper-slide>
+                  <swiper-slide>2021-11-09 ~ 2021-11-17</swiper-slide>
+                  <swiper-slide>2021-11-18 ~ 2021-11-25</swiper-slide>
+                  <div class="swiper-button-prev" slot="button-prev"></div>
+                  <div class="swiper-button-next" slot="button-next"></div>
+                </swiper>
+              </template>
+              <div id="analysis_safety_score">스미싱 의심 관련 문자</div>
+              <div id="analysis_smishing">
+                <img src="assets/receive_sms1.svg" style="width: 20%" />
+                <div style="width: 60%; font-size: 15px; font-family: 'Gowun Dodum', sans-serif;">
+                  등록된 번호
+                </div>
+                <div
+                  style="
+                    width: 20%;
+                    color: green;
+                    font-family: 'Gowun Dodum', sans-serif;
+                  "
+                >
+                  123건
+                </div>
+              </div>
+              <div id="analysis_smishing">
+                <img src="assets/unkown_sms.svg" style="width: 20%" />
+                <div
+                  style="
+                    width: 60%;
+                    font-size: 15px;
+                    font-family: 'Gowun Dodum', sans-serif;
+                  "
+                >
+                  해외발신
+                </div>
+                <div
+                  style="
+                    width: 20%;
+                    color: green;
+                    font-family: 'Gowun Dodum', sans-serif;
+                  "
+                >
+                  123건
+                </div>
+              </div>
+              <div id="analysis_smishing_last">
+                <img src="assets/phishing_doubt_sms.svg" style="width: 20%" />
+                <div style="width: 20%"></div>
+                <div
+                  style="
+                    font-size: 10px;
+                    width: 60%;
+                    font-family: 'Gowun Dodum', sans-serif;
+                  "
+                >
+                  * 정식 스토어에 등록하지 않고 설치된 앱은 피싱 범죄에 악용될
+                  수 있습니다.
+                </div>
+              </div>
+              <div id="install_sms_name">
+                <div id="install_sms">설치 의심 관련 문자</div>
+                <div>
+                  <span id="sms_name">홍길동</span>
+                  <span id="sms_time">&nbsp;2021년 9월 17일 20시 16분</span>
+                </div>
+                <div id="sms_content">
+                  추석 맞이 대박 세일! 해당 앱을 설치하세요!
+                </div>
+              </div>
+            </v-sheet>
+          </v-bottom-sheet>
+
+        <!--#########################단어!!!!###############################--->
+          <v-bottom-sheet
+            class="overflow-y-auto"
+            v-model="GahyeonWord"
+            fullscreen
+            overlay-color="white"
+            max-height="auto"
+            scrollable
+          >
+            <v-sheet class="overflow-y-auto" style="text-align: center">
+              <div class="analysis_top">
+                <b-icon-x id="x_button" @click="GahyeonWord = !GahyeonWord" />
+                <div id="analysis_title" style="color: #0b80f5">단어</div>
+                <div id="empty_box_2"></div>
+              </div>
+              <div id="grey_box" />
+              <template>
+                <swiper
+                  class="swiper"
+                  :options="swiperOption"
+                  style="width: 80%"
+                >
+                  <swiper-slide>2021-11-01 ~ 2021-11-08</swiper-slide>
+                  <swiper-slide>2021-11-09 ~ 2021-11-17</swiper-slide>
+                  <swiper-slide>2021-11-18 ~ 2021-11-25</swiper-slide>
+                  <div class="swiper-button-prev" slot="button-prev"></div>
+                  <div class="swiper-button-next" slot="button-next"></div>
+                </swiper>
+              </template>
+              <br />
+              <v-text-field
+                label="검색어"
+                placeholder=""
+                outlined
+                dense
+                single-line
+                color="blue"
+                class="shrink mx-4"
+                style="
+                  border-radius: 5px;
+                  font-family: 'Gowun Dodum', sans-serif;
+                  height: 6%;
+                "
+              >
+              </v-text-field>
+              <div id="search">
+                <div style="color: #0b80f5; font-size: 15px">
+                  검색 결과 {{ result }}건
+                </div>
+                <div style="color: grey; font-size: 15px">(최대 10000건)</div>
+              </div>
+              <div
+                id="search_result"
+                v-for="(item, i) in search_name"
+                :key="item"
+              >
+                <div style="font-size: 15px">
+                  {{ i + 1 }}. {{ search_name[i] }}
+                </div>
+                <div style="font-size: 12px; color: blue">
+                  {{ search_events[i] }}건
+                </div>
+              </div>
+            </v-sheet>
+          </v-bottom-sheet>
 
 	</div>
 
@@ -143,7 +779,15 @@
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from "vue-awesome-swiper"
+import "swiper/css/swiper.css"
+
+// import VueBarGraph from 'vue-bar-graph';
+import LineChart from "../components/LineChart.js";
+import BarChart from "../components/BarChart.js";
+
 var numberList = [];
+
 
 
 var fullSmsList = [];
@@ -157,16 +801,43 @@ var zeroSevenList = [];
 var adList = [];
 var overseaList = [];
 
+var totalScore = 0
+
+var urlSMS = 0;
+var webSMS = 0;
+var zeroSevenSMS = 0;
+var adSMS = 0;
+var overseaSMS = 0;
+
+var urlSMSReal = 20;
+var webSMSReal = 20;
+var zeroSevenSMSReal = 20;
+var adSMSReal = 20;
+var overseaSMSReal = 20;
+
 var i = 0;
 export default {
+    components:{
+        Swiper, 
+        SwiperSlide,
+        LineChart,
+        BarChart
+    },
     data: function(){
         return{
+          score_number: totalScore,
+          level:0,
+        
+            timeTabsCurrentItem:0,
             smsDetailPageToggle:false,
-            score_number:100,
+            
             toggle: false,
             tempSMSNumber: 0,
             listSize: numberList.length,
 
+
+            //갯수들
+            startNum: 0,
             fullSMS: 0,
             notInSMS: 0,    
             inSMS:0,
@@ -185,7 +856,102 @@ export default {
             phoneList:[
                 { number: 0, }
             ],
+            
+            rankList:[
+              {title:'URL포함 문자', number: 20},
+              {title:'[Web발신] 문자', number: 20},
+              {title:'070문자', number: 20},
+              {title:'[광고] 문자', number: 20},
+              {title:'[국외발신]',  number: 20}, 
+            ],
 
+
+            ////////////////////////가현/////////////////////////////////////
+            GahyeonSmsDetailPageToggle: false,
+            GahyeonType: false,
+            GahyeonTime: false,
+            GahyeonSms: false,
+            GahyeonWord: false,
+            swiperOption: {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+                }
+            },
+            bar_datacollection: {
+                labels: ["일", "월", "화", "수", "목", "금", "토"],
+                datasets: [{
+                barPercentage: 0.5,
+                barThickness: 8,
+                minBarLength: 2,
+                data: [10, 20, 30, 40, 50, 60, 70],
+                backgroundColor: "#0473e1",
+                }],
+            },
+            bar_option: {
+                legend: {
+                display: false
+                },
+                scales: {
+                xAxes: [{
+                    gridLines: {
+                    display: false,
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                    display: false,
+                    }
+                }]
+                }
+            },
+            typeSections: [
+                { value: urlSMS, label: 'URL포함 문자', color: 'red' },
+                { value: webSMS, label: '[Web발신] 문자', color: 'blue' },
+                { value: zeroSevenSMS, label: '070문자', color: 'green' },
+                { value: adSMS, label: '[광고] 문자', color: 'yellow' },
+                { value: overseaSMS, label: '[국외발신]', color: 'orange' },
+            ],
+
+            line_datacollection: {
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
+                datasets: [
+                {
+                    data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4],
+                    backgroundColor: "#0473e1",
+                    borderColor: "#0473e1",
+                    fill: false
+                }]
+            },
+            line_option: {
+                title: {
+                text: '시간',
+                align: 'center'
+                },
+                legend: {
+                display: false
+                },
+                scales: {
+                xAxes: [{
+                    gridLines: {
+                    display: false
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                    display: false
+                    }
+                }]
+                }
+            },
+            search_name: [
+                '홍길동', '류성룡', '이순신'
+            ],
+            search_events: [150, 200, 100],
+            ////////////////////////가현/////////////////////////////////////
+           
             smsDetailPageRow: {
                 display: 'flex',
                 flexDirection: 'row', 
@@ -196,7 +962,6 @@ export default {
                 height:'10%',
                 backgroundColor: 'chartreuse', 
             },
-
             backButtonStyle:{
                 flex: '1 1 0',
                 backgroundColor:'red',
@@ -207,7 +972,6 @@ export default {
                 alignItems: 'center',
                 justifyContent: 'center', 
             },
-            
             smsDetailPageColumn:{
                 flex: '5 1 0',
                 display: 'flex',
@@ -218,7 +982,6 @@ export default {
                 width:'100%',  
                 backgroundColor:'white',   
             },
-
             detailTopMenuStyle:{
                 flex: '1 1 0',
                 display: 'flex',
@@ -230,7 +993,6 @@ export default {
                 height:'100%',
                 width:'100%', 
             },
-
              detailTopMenuStyle_component1: {
                 flex: '1 1 0',
                 borderWidth: '2px',
@@ -292,7 +1054,6 @@ export default {
                 alignItems: 'center',
                 justifyContent: 'center', 
             },
-
             statisticsStyle:{
                 flex: '1 1 0',
                 borderWidth: '2px',
@@ -305,15 +1066,11 @@ export default {
                 alignItems: 'center',
                 justifyContent: 'center', 
             },
-
-
             smsComponentStyle:{
                 backgroundColor: 'chartreuse',
                 fontSize: '10px',
                 margin: '10px',
             },
-           
-           
             bottomSheet_style:{
                 backgroundColor: 'aquamarine',
                 position: 'absolute',
@@ -333,23 +1090,88 @@ export default {
            
         }
     },
-    methods:{
-        async developerOptionToggle()  {
-            this.drawer = !this.drawer;
+    computed:{
+      sortedArray: function() {
+          function compare(a, b) {
+            if (b.number < a.number)
+              return -1;
+            if (b.number > a.number)
+              return 1;
+            return 0;
+          }
 
+          return this.rankList.sort(compare);
+      },
+
+      sortedArrayTypeSection: function() {
+          function compareSection(a, b) {
+            if (b.value < a.value)
+              return -1;
+            if (b.value > a.value)
+              return 1;
+            return 0;
+          }
+
+          return this.typeSections.sort(compareSection);
+      }
+    },
+    methods:{
+        theFormat(number) {
+            return number.toFixed(2);
+        },
+        completed() {
+            console.log('Animation ends!');
+        },
+        playAnimation() {
+            this.$refs.number1.restart();
+        },
+
+
+        async phishingAnalysis(){
+          await this.developerOptionToggle();
+          this.GahyeonSmsDetailPageToggle = !this.GahyeonSmsDetailPageToggle;
+          this.playAnimation();
+        },
+        setTypePage(){
+          this.typeSections =[];
+          urlSMS = this.urlSMS/this.notInSMS * 100;
+          webSMS = this.webSMS/this.notInSMS * 100;
+          zeroSevenSMS = this.zeroSevenSMS/this.notInSMS * 100;
+          adSMS = this.adSMS/this.notInSMS * 100;
+          overseaSMS = this.overseaSMS/this.notInSMS * 100;
+          
+          this.rankList = [];
+          //바깥 쪽의 var을 쓴 이유는 그것이 
+          this.typeSections.push({value: urlSMS, label: 'URL포함 문자', color: 'red'});
+          this.typeSections.push({value: webSMS, label: '[Web발신] 문자', color: 'blue' });
+          this.typeSections.push({value: zeroSevenSMS, label: '070문자', color: 'green' });
+          this.typeSections.push({value: adSMS, label: '[광고] 문자', color: 'yellow' });
+          this.typeSections.push({value: overseaSMS, label: '[국외발신]', color: 'orange' });  
+
+          this.rankList.push({title:'URL포함 문자', number: this.urlSMS});
+          this.rankList.push({title:'[Web발신] 문자', number: this.webSMS});
+          this.rankList.push({title:'070문자', number: this.zeroSevenSMS});
+          this.rankList.push({title:'[광고] 문자 문자', number: this.adSMS});
+          this.rankList.push({title:'[국외발신]', number: this.overseaSMS}); 
+          
+          
+        },
+        async developerOptionToggle()  {
+            // this.drawer = !this.drawer;
             fullSmsList = [];
             phoneBookList = [];
             notInPhoneBookList = [];
             inPhoneBookList = [];
-
+            
             urlList = [];
             webList = [];
             zeroSevenList = [];
             adList = [];
             overseaList = [];
 
-            await this.cordovaGetFullSMS();
             await this.cordovaGetPhoneBook();
+            await this.cordovaGetFullSMS();
+            
             await this.cordovaGetNotBookedSMS();
             await this.cordovaGetBookedSMS();
             await this.cordovaGetURLSmsHashMap();
@@ -368,7 +1190,25 @@ export default {
             this.adSMS = adList.length-1;
             this.overseaSMS = overseaList.length-1;
             
-            this.smsDetailPageToggle = !this.smsDetailPageToggle;
+            
+            this.setTypePage();
+            await this.cordovaGetTotalScore();
+            this.score_number = parseInt(totalScore);
+
+            if(totalScore>=80){
+              this.level = 4;
+            }
+            else if(totalScore>=70 && totalScore<80){
+              this.level = 3;
+            }
+            else if(totalScore>=60 && totalScore<70){
+              this.level = 2;
+            }
+            else if(totalScore<50){
+              this.level = 1;
+            }
+
+
         },
         goSMSscore(){
             this.$router.push('/smsscore');
@@ -384,11 +1224,11 @@ export default {
             this.vforList.push({number:'전체 문자 : ' + this.fullSMS});
             this.vforList.push({number:'연락처에 있는 문자 : ' + this.inSMS});
             this.vforList.push({number:'연락처에 없는 문자 : ' + this.notInSMS});
-            this.vforList.push({number:'URL포함 문자 : ' + this.urlSMS});
-            this.vforList.push({number:'[Web발신] 문자 : ' + this.webSMS});
-            this.vforList.push({number:'070문자 : ' + this.zeroSevenSMS});
-            this.vforList.push({number:'[광고] 문자 : ' + this.adSMS});
-            this.vforList.push({number:'[국외발신] 문자 : ' + this.overseaSMS});
+            this.vforList.push({number:'(연락처에 없는 문자 중)URL포함 문자 : ' + this.urlSMS});
+            this.vforList.push({number:'(연락처에 없는 문자 중)[Web발신] 문자 : ' + this.webSMS});
+            this.vforList.push({number:'(연락처에 없는 문자 중)070문자 : ' + this.zeroSevenSMS});
+            this.vforList.push({number:'(연락처에 없는 문자 중)[광고] 문자 : ' + this.adSMS});
+            this.vforList.push({number:'(연락처에 없는 문자 중)[국외발신] 문자 : ' + this.overseaSMS});
         },
         getFullSMS(){
             this.vforList.splice(0);
@@ -402,7 +1242,6 @@ export default {
         getPhoneBook(){
             this.vforList.splice(0);
             i = 0;
-            // alert("연락처 갯수 : "+ phoneBookList.length);
             while(i < phoneBookList.length-1){
                 this.vforList.push({number: phoneBookList[i]});
                 i++;
@@ -423,7 +1262,6 @@ export default {
                 this.vforList.push({number: inPhoneBookList[i]});
                 i++;
             }
-            // alert("연락처에 있는 문자"+inPhoneBookList.length );
         },
 
         getURLSMS(){
@@ -467,7 +1305,12 @@ export default {
             }
         },
 
-
+        async cordovaGetTotalScore(){
+            return new Promise(function(resolve, reject){
+                cordova.exec(getTotalScore, null,"CordovaCustomPlugin", "getTotalScore", []);
+                resolve();
+            });
+        },
 
         async cordovaGetFullSMS(){
             return new Promise(function(resolve, reject){
@@ -535,6 +1378,10 @@ export default {
     }
 }
 
+
+function getTotalScore(result){
+  totalScore = result;
+}
 function function_getURLSmsHashMap(result){
     urlList = result.split('^&');
 }
@@ -572,9 +1419,45 @@ function function_getBookedSMS(result){
 </script>
 
 <style scoped>
-
-#score_current{
-    
+/*유형 페이지*/
+#typeSection_list{
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+}
+.typeSection_list_component{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-top: solid;
+  border-color: #9fa0a0;
+}
+.typeSection_list_component2{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-top: solid;
+  border-bottom: solid;
+  border-color: #9fa0a0;
+}
+.typeSection_list_component_left{
+  flex: 2 1 0;
+}
+.typeSection_list_component_blank{
+  flex: 3 1 0;
+}
+.typeSection_list_component_right{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 0;
+}
+.typeSection_list_component_left_number{
+  color:lightsteelblue;
+}
+/*유형 페이지*/
+.score_current_green{
 	display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -587,6 +1470,60 @@ function function_getBookedSMS(result){
 	color:#009944;
 	/* background-color: aquamarine; */
 }
+.score_current_yellow{
+	display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+	align-items:flex-end;
+	
+	height: 100%;
+	width:50%;
+	line-height:90%;
+	font-size: 70px;
+	color:#ffcc00;
+	/* background-color: aquamarine; */
+}
+.score_current_orange{
+	display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+	align-items:flex-end;
+	
+	height: 100%;
+	width:50%;
+	line-height:90%;
+	font-size: 70px;
+	color:#ff9e01;
+	/* background-color: aquamarine; */
+}
+.score_current_red{
+	display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+	align-items:flex-end;
+	
+	height: 100%;
+	width:50%;
+	line-height:90%;
+	font-size: 70px;
+	color:#fd0000;
+	/* background-color: aquamarine; */
+}
+.score_current_blue{
+	display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+	align-items:flex-end;
+	
+	height: 100%;
+	width:50%;
+	line-height:90%;
+	font-size: 70px;
+	color:#0473e1;
+	/* background-color: aquamarine; */
+}
+
+
 #score_total{
 	display: flex;
 	height: 100%;
@@ -631,9 +1568,7 @@ function function_getBookedSMS(result){
 #question_number{
     color:#ffcc00;
 }
-#exclamation_number{
-    color: #fd0000;
-}
+
 
 #home_appBar {
   max-height: 100px;
@@ -669,6 +1604,8 @@ function function_getBookedSMS(result){
   justify-content: center;
   /* background-color:blanchedalmond; */
 }
+
+
 #home_score_ment{
 	width: 100%;
 	flex: 1 1 0;
@@ -679,6 +1616,40 @@ function function_getBookedSMS(result){
   	justify-content: center;
 	font-size:120%;
 	color:#009944;
+}
+#home_score_ment1{
+	width: 100%;
+	flex: 1 1 0;
+
+	display: flex;
+	flex-direction: column;
+  	align-items: center;
+  	justify-content: center;
+	font-size:120%;
+	color:#fae100;
+}
+#home_score_ment2{
+	width: 100%;
+	flex: 1 1 0;
+
+	display: flex;
+	flex-direction: column;
+  	align-items: center;
+  	justify-content: center;
+	font-size:120%;
+	color:#ff9e01;
+;
+}
+#home_score_ment3{
+	width: 100%;
+	flex: 1 1 0;
+
+	display: flex;
+	flex-direction: column;
+  	align-items: center;
+  	justify-content: center;
+	font-size:120%;
+	color:#e60012;
 }
 
 #detail_button{
@@ -706,9 +1677,23 @@ function function_getBookedSMS(result){
 #detail_text_text{
     color:#9fa0a0;
 }
-#home_level{
+
+.level_green{
     font-weight: bold;
     color:#009944;
+}
+.level_yellow{
+    font-weight: bold;
+    color:#fae100;
+}
+.level_orange{
+  
+    font-weight: bold;
+    color:#ff9e01;
+}
+.level_red{
+    font-weight: bold;
+    color:#e60012;
 }
 
 #detail_score{
@@ -748,7 +1733,7 @@ function function_getBookedSMS(result){
   /* background-color: darkkhaki; */
 }
 
-#background_fish {
+.background_fish {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -757,8 +1742,39 @@ function function_getBookedSMS(result){
     background-image: url('assets/background.svg');
     background-repeat: repeat;
 	background-position-y: -10%;
-    /* background-position-y: 10%;
-    background-position-x: 50%; */
+}
+
+.background_rain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    background-image: url('assets/background_rain.svg');
+    background-repeat: repeat;
+	background-position-y: -10%;
+}
+
+.background_caution {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    background-image: url('assets/background_caution.svg');
+    background-repeat: repeat;
+	background-position-y: -10%;
+}
+
+.background_warning {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    background-image: url('assets/background_warning.svg');
+    background-repeat: repeat;
+	background-position-y: -10%;
 }
 
 #background_head{
@@ -789,4 +1805,118 @@ function function_getBookedSMS(result){
 }
 
 
+
+
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!가현쓰!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+.analysis_top {
+  margin: 3% 0 3% 0;
+  display: flex;
+  flex: 1 1 auto;
+  height: 3%;
+  align-items: center;
+  justify-content: space-around;
+}
+#x_button {
+  width: 10%;
+  font-size: 40px;
+}
+
+#empty_box_2 {
+  width: 10%;
+}
+#analysis_title {
+  width: 50%;
+  height: 20px;
+  text-align: center;
+  font-family: "Gowun Dodum", sans-serif;
+}
+#anlysis_title_img {
+  width: 80px;
+  height: 30px;
+  object-fit: cover;
+}
+#analysis_safety_score {
+  margin: 5% 0 5% 0;
+  font-size: 25px;
+  font-family: "Gowun Dodum", sans-serif;
+  font-weight: bold;
+}
+#analysis_type {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  color: #0b80f5;
+  background-color: #eaf5ff;
+  text-align: center;
+  font-family: "Gowun Dodum", sans-serif;
+}
+#analysis_type_long {
+  width: 100%;
+  height: 50px;
+  color: #0b80f5;
+  background-color: #eaf5ff;
+  text-align: center;
+  padding: 0 15% 0 15%;
+  font-family: "Gowun Dodum", sans-serif;
+}
+
+#analysis_smishing {
+  display: flex;
+  flex: 5 1 0;
+  width: 90%;
+  margin: 5%;
+  align-items: center;
+  justify-content: space-around;
+}
+#analysis_smishing_last {
+  display: flex;
+  flex: 5 1 0;
+  width: 90%;
+  margin: 5%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+#install_sms_name {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 2% 8% 2% 8%;
+  text-align: left;
+  font-family: "Gowun Dodum", sans-serif;
+  background: #edf0f0;
+}
+#sms_name {
+  float: left;
+  font-weight: bold;
+}
+#sms_time {
+  float: left;
+  padding: 3% 0 0 0;
+  font-size: 10px;
+  color: grey;
+}
+#sms_content {
+  font-size: 12px;
+  color: grey;
+}
+
+#search {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 5% 0 5%;
+  font-family: "Gowun Dodum", sans-serif;
+}
+#search_result {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  margin: 1% 0 0 0;
+  padding: 0 5% 0 5%;
+  align-items: center;
+  justify-content: space-between;
+  background: rgb(148, 210, 230);
+}
 </style>
