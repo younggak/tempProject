@@ -13,6 +13,7 @@ import com.siin.One.HashMapDetail.HashMapDetail_SMS;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -30,6 +31,11 @@ public class DataCenter {
   HashMap<String, ArrayList<HashMapDetail_SMS>> zeroSevenSmsHashMap = new HashMap<>();
   HashMap<String, ArrayList<HashMapDetail_SMS>> adSmsHashMap = new HashMap<>();
   HashMap<String, ArrayList<HashMapDetail_SMS>> overseaSmsHashMap = new HashMap<>();
+
+  HashMap<String, ArrayList<HashMapDetail_SMS>> weekBadSmsHashMap = new HashMap<>();
+  HashMap<String, ArrayList<HashMapDetail_SMS>> monthBadSmsHashMap = new HashMap<>();
+
+
 
   float totalScore = 0;
   float tempSingleScore = 0;
@@ -153,6 +159,19 @@ public class DataCenter {
     adSmsHashMap.clear();
     overseaSmsHashMap.clear();
 
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+    Calendar cal = Calendar.getInstance();
+
+    cal.add(Calendar.DATE,0);
+    String today = sdf.format(cal.getTime());
+
+    cal.add(Calendar.DATE, -7);
+    String past = sdf.format(cal.getTime());
+
+//    Toast.makeText(context.getApplicationContext(), today, Toast.LENGTH_SHORT).show();
+//    Toast.makeText(context.getApplicationContext(), past, Toast.LENGTH_SHORT).show();
+
+
     countSMSDataBase(MainActivity.getContextOfApplication());
 
     Uri allMessage = Uri.parse("content://sms");
@@ -188,7 +207,7 @@ public class DataCenter {
 
         long timestamp = c.getLong(4);
         Date tempDay = new Date(timestamp);
-        String formattedDate = new SimpleDateFormat("MM/dd/yyyy").format(tempDay);
+        String formattedDate = new SimpleDateFormat("yyyy.MM.dd").format(tempDay);
 
         hmds.setTimestamp(String.valueOf(formattedDate));
 
@@ -248,7 +267,7 @@ public class DataCenter {
 
         long timestamp = c.getLong(4);
         Date tempDay = new Date(timestamp);
-        String formattedDate = new SimpleDateFormat("yyyy/MM/dd").format(tempDay);
+        String formattedDate = new SimpleDateFormat("yyyy.MM.dd").format(tempDay);
         hmds.setTimestamp(String.valueOf(formattedDate));
 
         String body = c.getString(5);

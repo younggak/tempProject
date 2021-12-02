@@ -79,7 +79,7 @@ public class popUpService extends Service {
     bodyText.setText(body);
     numberText.setText(number);
 
-    if(body.contains("금융")){
+    if(body.contains("택배")){
       Drawable drawable = getResources().getDrawable(R.drawable.layout_bg_only_top_radius_red);
       alert_layout.setBackground(drawable);
       alert_textview.setText("피싱위험문자");

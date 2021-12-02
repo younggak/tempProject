@@ -14,7 +14,9 @@
       absolute
       temporary 
       right>
-        <div v-on:click='developerOptionToggle' style="margin-left: 10px; margin-top: 10px; background-color:#9fa0a0;" >개발자 문자 분석</div>
+        <div v-on:click='secretDeveloperMenu' style="margin-left: 10px; margin-top: 10px; background-color:#9fa0a0;" >
+          개발자 문자 분석
+        </div>
       </v-navigation-drawer>
     </div>
  
@@ -260,7 +262,7 @@
                 </swiper>
               </template>
               <div id="analysis_safety_score">
-                   한주 동안 가장 많이 받은 유형
+                  가장 많이 받은 유형
               </div>
               
               <template>
@@ -281,39 +283,76 @@
                 
                 <div class = 'typeSection_list_component'>
                   <div class = 'typeSection_list_component_left'>
-                    <div> 
-                      1. {{sortedArray[0].title}}
+                    <div :class="{
+                      'typeNumberCSS_URL': sortedArrayRankedList[0].title == 'URL포함 문자' ,
+                      'typeNumberCSS_WEB':sortedArrayRankedList[0].title == '[Web발신] 문자' ,
+                      'typeNumberCSS_ZERO':sortedArrayRankedList[0].title == '070문자' ,
+                      'typeNumberCSS_AD':sortedArrayRankedList[0].title == '[광고] 문자' ,
+                      'typeNumberCSS_OVERSEA':sortedArrayRankedList[0].title == '[국외발신]' ,
+                    }"> 
+                      1. <b>{{sortedArrayRankedList[0].title}}</b>
                     </div>
-                    <div class = 'typeSection_list_component_left_number'> 
-                      {{sortedArray[0].number}} messages
+                    <!--sex-->
+                    <div :class="{
+                      'typeNumberCSS_URL': sortedArrayRankedList[0].title == 'URL포함 문자' ,
+                      'typeNumberCSS_WEB':sortedArrayRankedList[0].title == '[Web발신] 문자' ,
+                      'typeNumberCSS_ZERO':sortedArrayRankedList[0].title == '070문자' ,
+                      'typeNumberCSS_AD':sortedArrayRankedList[0].title == '[광고] 문자' ,
+                      'typeNumberCSS_OVERSEA':sortedArrayRankedList[0].title == '[국외발신]' ,
+                    }"> 
+                      {{sortedArrayRankedList[0].number}} messages
                     </div>
                   </div>
                   <div class = 'typeSection_list_component_blank'>
                        
                   </div>
-                  <div class = 'typeSection_list_component_right'>14일 전</div>
+                  <div class = 'typeSection_list_component_right'>8일 전</div>
                 </div>
 
                 <div class = 'typeSection_list_component'>
                   <div class = 'typeSection_list_component_left'>
-                    <div> 
-                      2. {{sortedArray[1].title}}
+                    <div :class="{
+                      'typeNumberCSS_URL': sortedArrayRankedList[1].title == 'URL포함 문자' ,
+                      'typeNumberCSS_WEB':sortedArrayRankedList[1].title == '[Web발신] 문자' ,
+                      'typeNumberCSS_ZERO':sortedArrayRankedList[1].title == '070문자' ,
+                      'typeNumberCSS_AD':sortedArrayRankedList[1].title == '[광고] 문자' ,
+                      'typeNumberCSS_OVERSEA':sortedArrayRankedList[1].title == '[국외발신]' ,
+                    }"> 
+                      2. <b>{{sortedArrayRankedList[1].title}}</b>
                     </div>
-                    <div class = 'typeSection_list_component_left_number'> 
-                      {{sortedArray[1].number}} messages
+                    <div :class="{
+                      'typeNumberCSS_URL':sortedArrayRankedList[1].title == 'URL포함 문자' ,
+                      'typeNumberCSS_WEB':sortedArrayRankedList[1].title == '[Web발신] 문자' ,
+                      'typeNumberCSS_ZERO':sortedArrayRankedList[1].title == '070문자' ,
+                      'typeNumberCSS_AD':sortedArrayRankedList[1].title == '[광고] 문자' ,
+                      'typeNumberCSS_OVERSEA':sortedArrayRankedList[1].title == '[국외발신]' ,
+                    }"> 
+                      {{sortedArrayRankedList[1].number}} messages
                     </div>
                   </div>
                   <div class = 'typeSection_list_component_blank'></div>
-                  <div class = 'typeSection_list_component_right'>14일 전</div>
+                  <div class = 'typeSection_list_component_right'>3일 전</div>
                 </div>
 
                 <div class = 'typeSection_list_component'>
                   <div class = 'typeSection_list_component_left'>
-                    <div> 
-                      3. {{this.sortedArray[2].title}}
+                    <div :class="{
+                      'typeNumberCSS_URL': sortedArrayRankedList[2].title == 'URL포함 문자' ,
+                      'typeNumberCSS_WEB':sortedArrayRankedList[2].title == '[Web발신] 문자' ,
+                      'typeNumberCSS_ZERO':sortedArrayRankedList[2].title == '070문자' ,
+                      'typeNumberCSS_AD':sortedArrayRankedList[2].title == '[광고] 문자' ,
+                      'typeNumberCSS_OVERSEA':sortedArrayRankedList[2].title == '[국외발신]' ,
+                    }"> 
+                      3. <b>{{this.sortedArrayRankedList[2].title}}</b>
                     </div>
-                    <div class = 'typeSection_list_component_left_number'> 
-                      {{this.sortedArray[2].number}} messages
+                    <div :class="{
+                      'typeNumberCSS_URL':sortedArrayRankedList[2].title == 'URL포함 문자' ,
+                      'typeNumberCSS_WEB':sortedArrayRankedList[2].title == '[Web발신] 문자' ,
+                      'typeNumberCSS_ZERO':sortedArrayRankedList[2].title == '070문자' ,
+                      'typeNumberCSS_AD':sortedArrayRankedList[2].title == '[광고] 문자' ,
+                      'typeNumberCSS_OVERSEA':sortedArrayRankedList[2].title == '[국외발신]' ,
+                    }"> 
+                      {{this.sortedArrayRankedList[2].number}} messages
                     </div>
                   </div>
                   <div class = 'typeSection_list_component_blank'></div>
@@ -322,28 +361,52 @@
 
                 <div class = 'typeSection_list_component'>
                    <div class = 'typeSection_list_component_left'>
-                    <div> 
-                      4. {{this.sortedArray[3].title}}
+                    <div :class="{
+                      'typeNumberCSS_URL': sortedArrayRankedList[3].title == 'URL포함 문자' ,
+                      'typeNumberCSS_WEB':sortedArrayRankedList[3].title == '[Web발신] 문자' ,
+                      'typeNumberCSS_ZERO':sortedArrayRankedList[3].title == '070문자' ,
+                      'typeNumberCSS_AD':sortedArrayRankedList[3].title == '[광고] 문자' ,
+                      'typeNumberCSS_OVERSEA':sortedArrayRankedList[3].title == '[국외발신]' ,
+                    }"> 
+                      4. <b>{{this.sortedArrayRankedList[3].title}}</b>
                     </div>
-                    <div class = 'typeSection_list_component_left_number'> 
-                      {{this.sortedArray[3].number}} messages
+                    <div :class="{
+                      'typeNumberCSS_URL':sortedArrayRankedList[3].title == 'URL포함 문자' ,
+                      'typeNumberCSS_WEB':sortedArrayRankedList[3].title == '[Web발신] 문자' ,
+                      'typeNumberCSS_ZERO':sortedArrayRankedList[3].title == '070문자' ,
+                      'typeNumberCSS_AD':sortedArrayRankedList[3].title == '[광고] 문자' ,
+                      'typeNumberCSS_OVERSEA':sortedArrayRankedList[3].title == '[국외발신]' ,
+                    }"> 
+                      {{this.sortedArrayRankedList[3].number}} messages
                     </div>
                   </div>
                   <div class = 'typeSection_list_component_blank'></div>
-                  <div class = 'typeSection_list_component_right'>14일 전</div>
+                  <div class = 'typeSection_list_component_right'>35일 전</div>
                 </div>
 
                 <div class = 'typeSection_list_component2'>
                   <div class = 'typeSection_list_component_left'>
-                    <div> 
-                      5. {{this.sortedArray[4].title}}
+                    <div :class="{
+                      'typeNumberCSS_URL': sortedArrayRankedList[4].title == 'URL포함 문자' ,
+                      'typeNumberCSS_WEB':sortedArrayRankedList[4].title == '[Web발신] 문자' ,
+                      'typeNumberCSS_ZERO':sortedArrayRankedList[4].title == '070문자' ,
+                      'typeNumberCSS_AD':sortedArrayRankedList[4].title == '[광고] 문자' ,
+                      'typeNumberCSS_OVERSEA':sortedArrayRankedList[4].title == '[국외발신]' ,
+                    }"> 
+                      5. <b>{{this.sortedArrayRankedList[4].title}}</b>
                     </div>
-                    <div class = 'typeSection_list_component_left_number'> 
-                      {{this.sortedArray[4].number}} messages
+                    <div :class="{
+                      'typeNumberCSS_URL':sortedArrayRankedList[4].title == 'URL포함 문자' ,
+                      'typeNumberCSS_WEB':sortedArrayRankedList[4].title == '[Web발신] 문자' ,
+                      'typeNumberCSS_ZERO':sortedArrayRankedList[4].title == '070문자' ,
+                      'typeNumberCSS_AD':sortedArrayRankedList[4].title == '[광고] 문자' ,
+                      'typeNumberCSS_OVERSEA':sortedArrayRankedList[4].title == '[국외발신]' ,
+                    }"> 
+                      {{this.sortedArrayRankedList[4].number}} messages
                     </div>
                   </div>
                   <div class = 'typeSection_list_component_blank'></div>
-                  <div class = 'typeSection_list_component_right'>14일 전</div>
+                  <div class = 'typeSection_list_component_right'>2일 전</div>
                 </div>
               </div>
             
@@ -387,6 +450,7 @@
                 <v-tab><b>3개월</b></v-tab>
                 <v-tab><b>전체</b></v-tab>
               </v-tabs>
+
               <br/>
 
               <v-tabs-items v-model="timeTabsCurrentItem">
@@ -411,7 +475,8 @@
                 :chart-data="bar_datacollection"
                 :options="bar_option"
                 style="margin: 10% 5% 10% 5%"
-              ></bar-chart>
+              >
+              </bar-chart>
               <div
                 style="
                   width: 100%;
@@ -518,6 +583,7 @@
                 :options="bar_option"
                 style="margin: 10% 5% 10% 5%"
               ></bar-chart>
+              
               <div
                 style="
                   width: 100%;
@@ -542,11 +608,13 @@
                   <div class="swiper-button-next" slot="button-next"></div>
                 </swiper>
               </template>
+              
               <line-chart
                 :chart-data="line_datacollection"
                 :options="line_option"
                 style="margin: 10% 5% 10% 5%"
-              ></line-chart>
+              >
+              </line-chart>
                 </v-tab-item>
               </v-tabs-items>
 
@@ -588,6 +656,7 @@
                 </swiper>
               </template>
               <div id="analysis_safety_score">스미싱 의심 관련 문자</div>
+              
               <div id="analysis_smishing">
                 <img src="assets/receive_sms1.svg" style="width: 20%" />
                 <div style="width: 60%; font-size: 15px; font-family: 'Gowun Dodum', sans-serif;">
@@ -597,22 +666,20 @@
                   style="
                     width: 20%;
                     color: green;
-                    font-family: 'Gowun Dodum', sans-serif;
-                  "
-                >
-                  123건
+                    font-family: 'Gowun Dodum', sans-serif;">
+                  {{inSMS}}건
                 </div>
               </div>
-              <div id="analysis_smishing">
+              
+              <div class="space_line"></div>
+
+              <div id="analysis_smishing">  
                 <img src="assets/unkown_sms.svg" style="width: 20%" />
-                <div
-                  style="
+                <div style="
                     width: 60%;
                     font-size: 15px;
-                    font-family: 'Gowun Dodum', sans-serif;
-                  "
-                >
-                  해외발신
+                    font-family: 'Gowun Dodum', sans-serif;">
+                  등록되지 않은 번호
                 </div>
                 <div
                   style="
@@ -621,21 +688,23 @@
                     font-family: 'Gowun Dodum', sans-serif;
                   "
                 >
-                  123건
+                  {{notInSMS}}건
                 </div>
               </div>
+
+              <div class="space_line"></div>
+
+
               <div id="analysis_smishing_last">
                 <img src="assets/phishing_doubt_sms.svg" style="width: 20%" />
                 <div style="width: 20%"></div>
-                <div
-                  style="
-                    font-size: 10px;
-                    width: 60%;
-                    font-family: 'Gowun Dodum', sans-serif;
-                  "
-                >
+                <div style=" font-size: 10px; width: 60%; font-family: 'Gowun Dodum', sans-serif;">
                   * 정식 스토어에 등록하지 않고 설치된 앱은 피싱 범죄에 악용될
                   수 있습니다.
+                </div>
+
+                <div style="width: 20%; color: green; font-family: 'Gowun Dodum', sans-serif;">
+                  {{adSMS}}건
                 </div>
               </div>
               <div id="install_sms_name">
@@ -788,9 +857,6 @@ import LineChart from "../components/LineChart.js";
 import BarChart from "../components/BarChart.js";
 
 var numberList = [];
-
-
-
 var fullSmsList = [];
 var phoneBookList = [];
 var notInPhoneBookList = [];
@@ -810,11 +876,6 @@ var zeroSevenSMS = 0;
 var adSMS = 0;
 var overseaSMS = 0;
 
-var urlSMSReal = 20;
-var webSMSReal = 20;
-var zeroSevenSMSReal = 20;
-var adSMSReal = 20;
-var overseaSMSReal = 20;
 
 var i = 0;
 export default {
@@ -838,7 +899,6 @@ export default {
 
 
             //갯수들
-            startNum: 0,
             fullSMS: 0,
             notInSMS: 0,    
             inSMS:0,
@@ -854,16 +914,14 @@ export default {
             sheet: false,
             vforList: [],
 
-            phoneList:[
-                { number: 0, }
-            ],
+           
             
             rankList:[
-              {title:'URL포함 문자', number: 20},
-              {title:'[Web발신] 문자', number: 20},
-              {title:'070문자', number: 20},
-              {title:'[광고] 문자', number: 20},
-              {title:'[국외발신]',  number: 20}, 
+              {title:'URL포함 문자', number: 0, color:'#7bcabf'},
+              {title:'[Web발신] 문자', number: 0, color:'#b5c7ed'},
+              {title:'070문자', number: 0, color:'#7fc638'},
+              {title:'[광고] 문자', number: 0, color:'#f55354'},
+              {title:'[국외발신]',  number: 0, color:'#f59b25'}, 
             ],
 
 
@@ -881,19 +939,20 @@ export default {
                 prevEl: '.swiper-button-prev'
                 }
             },
+            
             bar_datacollection: {
                 labels: ["일", "월", "화", "수", "목", "금", "토"],
                 datasets: [{
-                barPercentage: 0.5,
-                barThickness: 8,
-                minBarLength: 2,
-                data: [10, 20, 30, 40, 50, 60, 70],
-                backgroundColor: "#0473e1",
+                  barPercentage: 0.5,
+                  barThickness: 8,
+                  minBarLength: 2,
+                  data: [0, 3, 8, 6, 2, 5, 15],
+                  backgroundColor: "#0473e1",
                 }],
             },
             bar_option: {
                 legend: {
-                display: false
+                  display: false
                 },
                 scales: {
                 xAxes: [{
@@ -909,18 +968,18 @@ export default {
                 }
             },
             typeSections: [
-                { value: urlSMS, label: 'URL포함 문자', color: 'red' },
-                { value: webSMS, label: '[Web발신] 문자', color: 'blue' },
-                { value: zeroSevenSMS, label: '070문자', color: 'green' },
-                { value: adSMS, label: '[광고] 문자', color: 'yellow' },
-                { value: overseaSMS, label: '[국외발신]', color: 'orange' },
+                { value: urlSMS, label: 'URL포함 문자', color: '#7bcabf' },
+                { value: webSMS, label: '[Web발신] 문자', color: '#b5c7ed' },
+                { value: zeroSevenSMS, label: '070문자', color: '#7fc638' },
+                { value: adSMS, label: '[광고] 문자', color: '#f55354' },
+                { value: overseaSMS, label: '[국외발신]', color: '#f59b25' },
             ],
 
             line_datacollection: {
                 labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
                 datasets: [
                 {
-                    data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4],
+                    data: [5, 1, 2, 1, 8, 5, 6, 7, 8, 9, 0, 1, 2, 1, 4, 5, 6, 4, 8, 9, 0, 1, 2, 12, 5],
                     backgroundColor: "#0473e1",
                     borderColor: "#0473e1",
                     fill: false
@@ -952,7 +1011,6 @@ export default {
             ],
             search_events: [150, 200, 100],
             ////////////////////////가현/////////////////////////////////////
-           
             smsDetailPageRow: {
                 display: 'flex',
                 flexDirection: 'row', 
@@ -1092,7 +1150,7 @@ export default {
         }
     },
     computed:{
-      sortedArray: function() {
+      sortedArrayRankedList: function() {
           function compare(a, b) {
             if (b.number < a.number)
               return -1;
@@ -1127,7 +1185,6 @@ export default {
             this.$refs.number1.restart();
         },
 
-
         async phishingAnalysis(){
           await this.developerOptionToggle();
           this.GahyeonSmsDetailPageToggle = !this.GahyeonSmsDetailPageToggle;
@@ -1143,19 +1200,17 @@ export default {
           
           this.rankList = [];
           //바깥 쪽의 var을 쓴 이유는 그것이 
-          this.typeSections.push({value: urlSMS, label: 'URL포함 문자', color: 'red'});
-          this.typeSections.push({value: webSMS, label: '[Web발신] 문자', color: 'blue' });
-          this.typeSections.push({value: zeroSevenSMS, label: '070문자', color: 'green' });
-          this.typeSections.push({value: adSMS, label: '[광고] 문자', color: 'yellow' });
-          this.typeSections.push({value: overseaSMS, label: '[국외발신]', color: 'orange' });  
+          this.typeSections.push({value: urlSMS, label: 'URL포함 문자', color: '#7bcabf'});
+          this.typeSections.push({value: webSMS, label: '[Web발신] 문자', color: '#763931' });
+          this.typeSections.push({value: zeroSevenSMS, label: '070문자', color: '#7fc638' });
+          this.typeSections.push({value: adSMS, label: '[광고] 문자', color: '#f55354' });
+          this.typeSections.push({value: overseaSMS, label: '[국외발신]', color: '#f59b25' });  
 
-          this.rankList.push({title:'URL포함 문자', number: this.urlSMS});
-          this.rankList.push({title:'[Web발신] 문자', number: this.webSMS});
-          this.rankList.push({title:'070문자', number: this.zeroSevenSMS});
-          this.rankList.push({title:'[광고] 문자 문자', number: this.adSMS});
-          this.rankList.push({title:'[국외발신]', number: this.overseaSMS}); 
-          
-          
+          this.rankList.push({title:'URL포함 문자', number: this.urlSMS, color:'#f59b25'});
+          this.rankList.push({title:'[Web발신] 문자', number: this.webSMS, color:'#0033ff' });
+          this.rankList.push({title:'070문자', number: this.zeroSevenSMS, color:'#7fc638'});
+          this.rankList.push({title:'[광고] 문자', number: this.adSMS, color:'#f55354'});
+          this.rankList.push({title:'[국외발신]', number: this.overseaSMS, color:'#f59b25'}); 
         },
         async developerOptionToggle()  {
             // this.drawer = !this.drawer;
@@ -1194,6 +1249,7 @@ export default {
             
             this.setTypePage();
             await this.cordovaGetTotalScore();
+            
             this.score_number = parseInt(totalScore);
 
             if(totalScore>=80){
@@ -1208,18 +1264,68 @@ export default {
             else if(totalScore<50){
               this.level = 1;
             }
-
-
-        },
-        goSMSscore(){
-            this.$router.push('/smsscore');
-        },
-        toggling(){
-            this.score_number++;
-            this.toggle = !this.toggle;
-            console.log(this.score_number+'\n'+this.toggle);
         },
 
+        async secretDeveloperMenu()  {
+            this.drawer = !this.drawer;
+
+            //리스트들 싹 비워주고요
+            fullSmsList = [];
+            phoneBookList = [];
+            notInPhoneBookList = [];
+            inPhoneBookList = [];
+            urlList = [];
+            webList = [];
+            zeroSevenList = [];
+            adList = [];
+            overseaList = [];
+
+            //코르도바 플러그인을 돌려주는데 데이터를 가져오면서 리스트에 동시에 넣어줍니다.
+            await this.cordovaGetPhoneBook();
+            await this.cordovaGetFullSMS();
+            await this.cordovaGetNotBookedSMS();
+            await this.cordovaGetBookedSMS();
+            await this.cordovaGetURLSmsHashMap();
+            await this.cordovaGetWebSmsHashMap();
+            await this.cordovaGetZeroSevenSmsHashMap();
+            await this.cordovaGetAdSmsHashMap();
+            await this.cordovaGetOverseaSmsHashMap();
+
+            //각각 문자 종류 별 갯수도 지정해주고.
+            this.fullSMS = fullSmsList.length-1;
+            this.inSMS = inPhoneBookList.length-1;            
+            this.notInSMS = notInPhoneBookList.length-1;
+
+            this.urlSMS = urlList.length-1;
+            this.webSMS = webList.length-1;
+            this.zeroSevenSMS = zeroSevenList.length-1;
+            this.adSMS = adList.length-1;
+            this.overseaSMS = overseaList.length-1;
+            
+            //유형페이지도 최신화 해줍니다.
+            this.setTypePage();
+
+            //안드로이드에서 가져오면서 측정한 점수도 가져옵니다.
+            await this.cordovaGetTotalScore();
+            this.score_number = parseInt(totalScore);
+
+            //점수를 기반으로 레벨을 정해줍니다.
+            if(totalScore>=80){
+              this.level = 4;
+            }
+            else if(totalScore>=70 && totalScore<80){
+              this.level = 3;
+            }
+            else if(totalScore>=60 && totalScore<70){
+              this.level = 2;
+            }
+            else if(totalScore<50){
+              this.level = 1;
+            }
+            this.smsDetailPageToggle = !this.smsDetailPageToggle;
+        },
+  
+        ////////   개발자 문자 분석용 메소드들 
         statistics(){
             this.vforList.splice(0);
             this.vforList.push({number:'전체 문자 : ' + this.fullSMS});
@@ -1264,7 +1370,6 @@ export default {
                 i++;
             }
         },
-
         getURLSMS(){
             this.vforList.splice(0);
             i=0;
@@ -1306,13 +1411,13 @@ export default {
             }
         },
 
+        //////////// 코르도바 플러그인 메소드들 
         async cordovaGetTotalScore(){
             return new Promise(function(resolve, reject){
                 cordova.exec(getTotalScore, null,"CordovaCustomPlugin", "getTotalScore", []);
                 resolve();
             });
         },
-
         async cordovaGetFullSMS(){
             return new Promise(function(resolve, reject){
                 cordova.exec(refreshSMSDataBase, null,"CordovaCustomPlugin", "refreshSMSDataBase", []);
@@ -1325,21 +1430,18 @@ export default {
                 resolve();
             });
         },
-
         async cordovaGetNotBookedSMS(){
             return new Promise(function (resolve, reject){
                 cordova.exec(function_getNotBookedSMS, null,"CordovaCustomPlugin", "getNotBookedSMS", []);
                 resolve();
             });
         },
-
         async cordovaGetBookedSMS(){
             return new Promise(function (resolve, reject){
                 cordova.exec(function_getBookedSMS, null,"CordovaCustomPlugin", "getBookedSMS", []);
                 resolve();
             });
         },
-        
         //특수한 문자들 
         async cordovaGetURLSmsHashMap(){
              return new Promise(function (resolve, reject){
@@ -1347,44 +1449,41 @@ export default {
                 resolve();
             });
         },
-
         async cordovaGetWebSmsHashMap(){
              return new Promise(function (resolve, reject){
                 cordova.exec(function_getWebSmsHashMap, null,"CordovaCustomPlugin", "getWebSmsHashMap", []);
                 resolve();
             });
         },
-
         async cordovaGetZeroSevenSmsHashMap(){
              return new Promise(function (resolve, reject){
                 cordova.exec(function_getZeroSevenSmsHashMap, null,"CordovaCustomPlugin", "getZeroSevenSmsHashMap", []);
                 resolve();
             });
         },
-
         async cordovaGetAdSmsHashMap(){
              return new Promise(function (resolve, reject){
                 cordova.exec(function_getAdSmsHashMap, null,"CordovaCustomPlugin", "getAdSmsHashMap", []);
                 resolve();
             });
         },
-
         async cordovaGetOverseaSmsHashMap(){
              return new Promise(function (resolve, reject){
                 cordova.exec(function_getOverseaSmsHashMap, null,"CordovaCustomPlugin", "getOverseaSmsHashMap", []);
                 resolve();
             });
         }
-
     }
 }
 
 
 function getTotalScore(result){
-  totalScore = result;
+  // this.level = 5;
+    totalScore = result;
 }
 function function_getURLSmsHashMap(result){
     urlList = result.split('^&');
+    this.rankList.push({title:'씨벌', number: '6974', color:'#f59b25'});
 }
 
 function function_getWebSmsHashMap(result){
@@ -1420,6 +1519,28 @@ function function_getBookedSMS(result){
 </script>
 
 <style scoped>
+
+.typeNumberCSS_URL{
+  color: #7bcabf;
+}
+.typeNumberCSS_WEB{
+  color: #763931;
+}
+.typeNumberCSS_ZERO{
+  color: #7fc638 ;
+}
+.typeNumberCSS_AD{
+  color: #f55354;
+}
+.typeNumberCSS_OVERSEA{
+  color: #f59b25;
+}
+
+.space_line{
+  background-color:#edf0f0;
+  height: 2px;
+  width: 100%;
+}
 /*유형 페이지*/
 #typeSection_list{
   display: flex;
@@ -1443,9 +1564,12 @@ function function_getBookedSMS(result){
 }
 .typeSection_list_component_left{
   flex: 2 1 0;
+  text-align: start;
+  margin-left: 5%;
+  
 }
 .typeSection_list_component_blank{
-  flex: 3 1 0;
+  flex: 2.5 1 0;
 }
 .typeSection_list_component_right{
   display: flex;
@@ -1455,7 +1579,7 @@ function function_getBookedSMS(result){
   flex: 1 1 0;
 }
 .typeSection_list_component_left_number{
-  color:lightsteelblue;
+  color:sorted;
 }
 /*유형 페이지*/
 .score_current_green{
