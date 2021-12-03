@@ -21,7 +21,6 @@ import java.util.Map;
 
 public class DataCenter {
   ArrayList<SMSBook> smsBookList = new ArrayList<SMSBook>();
-
   HashMap<String, HashMapDetail_PhoneBook> phoneBookHashMap = new HashMap<>();
   HashMap<String, ArrayList<HashMapDetail_SMS> > smsHashMap = new HashMap<>();
   HashMap<String, ArrayList<HashMapDetail_SMS>> bookedSmsHashMap = new HashMap<>();
@@ -31,25 +30,15 @@ public class DataCenter {
   HashMap<String, ArrayList<HashMapDetail_SMS>> zeroSevenSmsHashMap = new HashMap<>();
   HashMap<String, ArrayList<HashMapDetail_SMS>> adSmsHashMap = new HashMap<>();
   HashMap<String, ArrayList<HashMapDetail_SMS>> overseaSmsHashMap = new HashMap<>();
-
-  HashMap<String, ArrayList<HashMapDetail_SMS>> weekBadSmsHashMap = new HashMap<>();
-  HashMap<String, ArrayList<HashMapDetail_SMS>> monthBadSmsHashMap = new HashMap<>();
-
-
-
   float totalScore = 0;
   float tempSingleScore = 0;
   private int totalSMSNumber=0;
   private float singleFullScore = 100;
-  private int SMSInPhoneBookNumber;
-  private int SMSNotInPhoneBookNumber;
 
   public static DataCenter getInstance() {
     return instance;
   }
-
   private static DataCenter instance = new DataCenter();
-  //private construct
   private DataCenter() {
   }
   public float getTotalScore(){
@@ -58,43 +47,33 @@ public class DataCenter {
   public HashMap<String, ArrayList<HashMapDetail_SMS>> getURLSmsHashMap() {
     return URLSmsHashMap;
   }
-
   public HashMap<String, ArrayList<HashMapDetail_SMS>> getWebSmsHashMap() {
     return webSmsHashMap;
   }
-
   public HashMap<String, ArrayList<HashMapDetail_SMS>> getZeroSevenSmsHashMap() {
     return zeroSevenSmsHashMap;
   }
-
   public HashMap<String, ArrayList<HashMapDetail_SMS>> getAdSmsHashMap() {
     return adSmsHashMap;
   }
-
   public HashMap<String, ArrayList<HashMapDetail_SMS>> getOverseaSmsHashMap() {
     return overseaSmsHashMap;
   }
-
   public HashMap<String, ArrayList<HashMapDetail_SMS>> getSmsHashMap() {
     return smsHashMap;
   }
-
   public HashMap<String, HashMapDetail_PhoneBook> getPhoneBookHashMap() {
     return phoneBookHashMap;
   }
-
   public HashMap<String, ArrayList<HashMapDetail_SMS>> getBookedSmsHashMap() {
     return bookedSmsHashMap;
   }
-
   public HashMap<String, ArrayList<HashMapDetail_SMS>> getNotBookedSmsHashMap() {
     return notBookedSmsHashMap;
   }
-
   public ArrayList<SMSBook> getSmsBookList() {
     return smsBookList;
   }
-
   public void refreshPhoneBookDataBase(Context context){
     phoneBookHashMap.clear();
     ContentResolver cr = context.getContentResolver();
@@ -147,7 +126,6 @@ public class DataCenter {
       totalSMSNumber++;
     }
   }
-
   public void refreshSMSDataBase(Context context){
     smsHashMap.clear();
     totalSMSNumber = 0;
@@ -360,21 +338,4 @@ public class DataCenter {
     totalScore = totalScore/totalSMSNumber;
   }
 
-//  public void refreshBookedSmsHashMap(){
-//    SMSNotInPhoneBookNumber = 0;
-//    SMSInPhoneBookNumber = 0;
-//    totalSMSNumber = 0;
-//    bookedSmsHashMap.clear();
-//    notBookedSmsHashMap.clear();
-//    for(Map.Entry<String, ArrayList<HashMapDetail_SMS>> entrySet : smsHashMap.entrySet()){
-//      if(phoneBookHashMap.containsKey(entrySet.getKey())){
-//        bookedSmsHashMap.put(entrySet.getKey(), entrySet.getValue());
-//        SMSInPhoneBookNumber ++;
-//      }else{
-//        notBookedSmsHashMap.put(entrySet.getKey(), entrySet.getValue());
-//        SMSNotInPhoneBookNumber ++;
-//      }
-//      totalSMSNumber ++;
-//    }
-//  }
 }
